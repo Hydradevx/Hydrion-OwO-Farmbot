@@ -3,7 +3,7 @@ const fs = require('fs')
 
 const main = new Discord.Client();
 
-const config = fs.readFileSync()
+const config = fs.readFileSync('./config.json', 'utf-8')
 const settings = fs.readFileSync('./settings.json', 'utf-8')
 
 const prefix = settings.prefix;
