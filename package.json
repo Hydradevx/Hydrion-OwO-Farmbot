@@ -1,0 +1,25 @@
+{
+  "name": "hydrion-owo-farmbot",
+  "version": "0.0.1",
+  "description": "OwO Farmbot made by Hydrion Tools",
+  "main": "bot.js",
+  "scripts": {
+    "test": "node bot.js"
+  },
+  "keywords": [
+    "owo",
+    "farmer"
+  ],
+  "author": "HydraDevX",
+  "license": "MIT",
+  "dependencies": {
+    "ansi-colors": "^4.1.3",
+    "axios": "^1.7.9",
+    "discord.js-selfbot-v13": "file:.4.2",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "prettier": "^3.4.2"
+  }
+}
