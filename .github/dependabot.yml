@@ -20,7 +20,7 @@ updates:
     rebase-strategy: "auto"
     allow:
       - dependency-type: "all"
-    versioning-strategy: "increase"
+    versioning-strategy: "auto"  # Fixed invalid "increase" value
     target-branch: "main"
 
   - package-ecosystem: "github-actions"
@@ -60,21 +60,3 @@ updates:
       prefix: "docker(deps)"
       include: "scope"
     rebase-strategy: "auto"
-
-  - package-ecosystem: "cargo"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      time: "07:00"
-      timezone: "UTC"
-    labels:
-      - "rust"
-      - "dependencies"
-    assignees:
-      - "Hydradevx"
-    commit-message:
-      prefix: "cargo(deps)"
-      include: "scope"
-    versioning-strategy: "increase"
-    allow:
-      - dependency-type: "all"
