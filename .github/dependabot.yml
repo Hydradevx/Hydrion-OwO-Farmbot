@@ -7,27 +7,13 @@ updates:
       time: "03:00"
       timezone: "UTC"
     open-pull-requests-limit: 100
-    ignore:
-      - dependency-name: "express"
-        versions: ["4.x"]
-      - dependency-name: "lodash"
-        versions: ["^4.17.21"]
-      - dependency-name: "webpack"
-        versions: ["<5.0.0"]
     labels:
       - "dependencies"
-      - "security"
       - "npm"
       - "automated"
       - "maintenance"
     assignees:
-      - "your-github-username"
-      - "team-lead"
-    reviewers:
-      - "your-github-username"
-      - "security-team"
-      - "frontend-team"
-      - "backend-team"
+      - "Hydradevx"
     commit-message:
       prefix: "chore(deps)"
       include: "scope"
@@ -36,38 +22,6 @@ updates:
       - dependency-type: "all"
     versioning-strategy: "increase"
     target-branch: "main"
-    milestone: 1
-    groups:
-      essential-dependencies:
-        patterns:
-          - "*"
-        update-types:
-          - "patch"
-          - "minor"
-      major-updates:
-        patterns:
-          - "*"
-        update-types:
-          - "major"
-        apply-only-to: "security"
-      frontend-packages:
-        patterns:
-          - "react"
-          - "react-dom"
-          - "next"
-          - "vue"
-          - "angular"
-      backend-packages:
-        patterns:
-          - "express"
-          - "koa"
-          - "nestjs"
-      testing-frameworks:
-        patterns:
-          - "jest"
-          - "mocha"
-          - "chai"
-          - "vitest"
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -83,8 +37,8 @@ updates:
     commit-message:
       prefix: "ci(deps)"
       include: "scope"
-    reviewers:
-      - "devops-team"
+    assignees:
+      - "Hydradevx"
     rebase-strategy: "disabled"
     versioning-strategy: "lockfile-only"
     allow:
@@ -99,104 +53,13 @@ updates:
       timezone: "UTC"
     labels:
       - "docker"
-      - "security"
       - "dependencies"
     assignees:
-      - "infrastructure-team"
+      - "Hydradevx"
     commit-message:
       prefix: "docker(deps)"
       include: "scope"
     rebase-strategy: "auto"
-    ignore:
-      - dependency-name: "nginx"
-        versions: ["<1.21.0"]
-      - dependency-name: "mysql"
-        versions: ["<8.0.0"]
-
-  - package-ecosystem: "gradle"
-    directory: "/"
-    schedule:
-      interval: "monthly"
-      time: "01:00"
-      timezone: "UTC"
-    labels:
-      - "gradle"
-      - "dependencies"
-    assignees:
-      - "backend-team"
-    commit-message:
-      prefix: "gradle(deps)"
-      include: "scope"
-    versioning-strategy: "increase"
-    allow:
-      - dependency-type: "all"
-    ignore:
-      - dependency-name: "org.springframework.boot"
-        versions: ["<2.5.0"]
-    groups:
-      spring-packages:
-        patterns:
-          - "org.springframework*"
-      database-packages:
-        patterns:
-          - "com.mysql*"
-          - "org.postgresql*"
-
-  - package-ecosystem: "maven"
-    directory: "/"
-    schedule:
-      interval: "monthly"
-      time: "05:00"
-      timezone: "UTC"
-    labels:
-      - "maven"
-      - "dependencies"
-    assignees:
-      - "backend-team"
-    commit-message:
-      prefix: "maven(deps)"
-      include: "scope"
-    versioning-strategy: "increase"
-    allow:
-      - dependency-type: "all"
-    ignore:
-      - dependency-name: "org.apache.logging.log4j"
-        versions: ["<2.17.1"]
-
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "wednesday"
-      time: "06:00"
-      timezone: "UTC"
-    labels:
-      - "python"
-      - "dependencies"
-    assignees:
-      - "backend-team"
-      - "data-science-team"
-    commit-message:
-      prefix: "pip(deps)"
-      include: "scope"
-    rebase-strategy: "auto"
-    versioning-strategy: "increase"
-    ignore:
-      - dependency-name: "tensorflow"
-        versions: ["<2.7.0"]
-      - dependency-name: "numpy"
-        versions: ["<1.21.0"]
-    groups:
-      machine-learning:
-        patterns:
-          - "tensorflow"
-          - "numpy"
-          - "pandas"
-          - "scikit-learn"
-      web-frameworks:
-        patterns:
-          - "flask"
-          - "django"
 
   - package-ecosystem: "cargo"
     directory: "/"
@@ -208,41 +71,10 @@ updates:
       - "rust"
       - "dependencies"
     assignees:
-      - "rust-team"
+      - "Hydradevx"
     commit-message:
       prefix: "cargo(deps)"
       include: "scope"
     versioning-strategy: "increase"
     allow:
       - dependency-type: "all"
-    ignore:
-      - dependency-name: "tokio"
-        versions: ["<1.0.0"]
-      - dependency-name: "serde"
-        versions: ["<1.0.0"]
-
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "daily"
-    assignees:
-      - "your-github-username"
-    labels:
-      - "dependencies"
-      - "copilot-ai"
-    commit-message:
-      prefix: "chore(ai-deps)"
-      include: "scope"
-    rebase-strategy: "auto"
-    allow:
-      - dependency-type: "all"
-    versioning-strategy: "increase"
-    groups:
-      ai-updates:
-        patterns:
-          - "openai"
-          - "copilot"
-          - "gpt"
-    ignore:
-      - dependency-name: "openai"
-        versions: ["<1.0.0"]
