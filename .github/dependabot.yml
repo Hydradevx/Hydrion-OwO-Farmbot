@@ -20,8 +20,7 @@ updates:
     rebase-strategy: "auto"
     allow:
       - dependency-type: "all"
-    versioning-strategy: "auto"  # Fixed invalid "increase" value
-    target-branch: "main"
+    versioning-strategy: "auto"  # Correctly placed
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -40,7 +39,6 @@ updates:
     assignees:
       - "Hydradevx"
     rebase-strategy: "disabled"
-    versioning-strategy: "lockfile-only"
     allow:
       - dependency-type: "direct"
 
