@@ -6,7 +6,7 @@ function execute(client: any) {
   const configPath = path.join(__dirname, "../../consts.json");
   const consts = JSON.parse(fs.readFileSync(configPath, "utf-8"));
   const channelId = consts.channelId;
-
+ // add client. on ready async for each func
   const channel = client.channels.cache.get(channelId);
   if (channel && channel.isText() && !client.info.paused) {
     setInterval(() => {
