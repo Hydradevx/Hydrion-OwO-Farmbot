@@ -18,7 +18,7 @@ if (fs.existsSync(configPath)) {
   process.exit();
 }
 
-export const client = new Client();
+export const client: any = new Client();
 
 client.on("ready", async () => {
   if (client.user) {
@@ -29,3 +29,9 @@ client.on("ready", async () => {
 export function cl_start() {
   client.login(config.token);
 }
+
+const info = {
+  paused: false,
+};
+
+client.info = info;
