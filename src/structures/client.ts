@@ -1,13 +1,31 @@
 import { Client } from "discord.js-selfbot-v13";
-const logger = require("../utils/logger");
+import logger from "../utils/logger";
 import fs from "fs";
+import path from "path";
 
-let config = fs.readFileSync("../../config.json");
+interface Config {
+  token: string;
+}
 
-const client = new Client();
+let configPath = path.join(__dirname, "../../config.json");
+let config: Config;
+
+if (fs.existsSync(configPath)) {
+  const configFile = fs.readFileSync(configPath, "utf-8");
+  config = JSON.parse(configFile);
+} else {
+  logger.error("Config file not found!");
+  process.exit();
+}
+
+export const client = new Client();
 
 client.on("ready", async () => {
-  logger.status(`Logged in as ${client.user.tag}`);
+  if (client.user) {
+    logger.status(`Logged in as ${client.user.tag}`);
+  }
 });
 
-client.login(config.token);
+export function cl_start() {
+  client.login(config.token);
+}

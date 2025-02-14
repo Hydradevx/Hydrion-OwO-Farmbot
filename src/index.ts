@@ -1,6 +1,9 @@
-import fs from "fs";
-import manageConfig from "./utils/config";
+import { startFarm } from "./utils/farmbot";
+import { cl_start, client } from "./structures/client";
 
-if (!fs.existsSync("../config.json")) {
-  manageConfig();
+function start() {
+  cl_start();
+  startFarm(client);
 }
+
+start();
