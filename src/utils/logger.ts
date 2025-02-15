@@ -24,6 +24,10 @@ function battle(message: string) {
   console.log(colors.yellow(`[BATTLE] ${message}`));
 }
 
+function gamble(message: string) {
+  console.log(colors.cyan(`[GAMBLE] ${message}`));
+}
+
 export default {
   status,
   error,
@@ -31,4 +35,5 @@ export default {
   battle,
   warn,
   info,
+  gamble,
 };

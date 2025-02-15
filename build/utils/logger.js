@@ -75,6 +75,9 @@ function hunt(message) {
 function battle(message) {
   console.log(colors.yellow(`[BATTLE] ${message}`));
 }
+function gamble(message) {
+  console.log(colors.cyan(`[GAMBLE] ${message}`));
+}
 exports.default = {
   status,
   error,
@@ -82,4 +85,5 @@ exports.default = {
   battle,
   warn,
   info,
+  gamble,
 };

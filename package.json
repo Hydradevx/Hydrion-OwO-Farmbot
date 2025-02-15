@@ -1,6 +1,6 @@
 {
   "name": "hydrion-owo-farmbot",
-  "version": "0.1.18",
+  "version": "0.2.5",
   "description": "OwO farmer by Hydrion",
   "main": "build/main.js",
   "scripts": {

@@ -68,7 +68,7 @@ const info_1 = __importDefault(require("../structures/info"));
 async function execute(client) {
   const configPath = path.join(__dirname, "../../config.json");
   const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
-  if (!config.hunt) return;
+  if (!config.gamble) return;
   const constsPath = path.join(__dirname, "../../consts.json");
   const consts = JSON.parse(fs.readFileSync(constsPath, "utf-8"));
   const channelId = consts.channelId;
@@ -76,11 +76,34 @@ async function execute(client) {
   if (channel?.isText()) {
     setInterval(() => {
       if (!info_1.default.getPaused() && !info_1.default.getCaptcha()) {
-        channel.send("owo hunt");
-        logger_1.default.hunt(`Hunt Command Executed`);
+        const method = getMethod();
+        if (method === "slots") {
+          channel.send(`owo slots ${consts.gamble.s_bet}`);
+          logger_1.default.gamble(`Slots Command Executed`);
+        } else {
+          const side = getHeadsOrTails();
+          channel.send(`owo coinflip ${side} ${consts.gamble.cf_bet}`);
+          logger_1.default.gamble(
+            `Coinflip Command Executed with Side: ${side}`,
+          );
+        }
       }
-    }, consts.huntInterval);
+    }, consts.gambleInterval);
   }
+}
+function getMethod() {
+  const flip = Math.floor(Math.random() * 2);
+  if (flip === 0) {
+    return "slots";
+  }
+  return "coinflip";
+}
+function getHeadsOrTails() {
+  const flip = Math.floor(Math.random() * 2);
+  if (flip === 0) {
+    return "heads";
+  }
+  return "tails";
 }
 module.exports = {
   execute,
