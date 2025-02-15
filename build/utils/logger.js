@@ -60,6 +60,12 @@ const colors = __importStar(require("ansi-colors"));
 function status(message) {
   console.log(colors.blue(`[STATUS] ${message}`));
 }
+function warn(message) {
+  console.log(colors.red(`[WARN] ${message}`));
+}
+function info(message) {
+  console.log(colors.blue(`[INFO] ${message}`));
+}
 function error(message) {
   console.log(colors.red(`[ERROR] ${message}`));
 }
@@ -74,4 +80,6 @@ exports.default = {
   error,
   hunt,
   battle,
+  warn,
+  info,
 };

@@ -3,9 +3,12 @@ import { cl_start, client } from "./structures/client";
 import { Collection } from "discord.js-selfbot-v13";
 import fs from "fs";
 import path from "path";
+import update from "./utils/updater";
 
 const configPath = path.join(__dirname, "../config.json");
 const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+
+update();
 
 function start() {
   cl_start();

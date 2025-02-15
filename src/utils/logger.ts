@@ -4,6 +4,14 @@ function status(message: string) {
   console.log(colors.blue(`[STATUS] ${message}`));
 }
 
+function warn(message: string) {
+  console.log(colors.red(`[WARN] ${message}`));
+}
+
+function info(message: string) {
+  console.log(colors.blue(`[INFO] ${message}`));
+}
+
 function error(message: string) {
   console.log(colors.red(`[ERROR] ${message}`));
 }
@@ -21,4 +29,6 @@ export default {
   error,
   hunt,
   battle,
+  warn,
+  info,
 };

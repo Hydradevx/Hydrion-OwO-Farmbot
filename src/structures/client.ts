@@ -30,8 +30,6 @@ export function cl_start() {
   client.login(config.token);
 }
 
-const info = {
+client.info = {
   paused: false,
 };
-
-client.info = info;
