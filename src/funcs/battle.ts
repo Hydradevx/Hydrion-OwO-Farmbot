@@ -9,9 +9,9 @@ async function execute(client: any) {
   const channel = client.channels.cache.get(channelId);
   if (channel && channel.isText() && !client.info.paused) {
     setInterval(() => {
-      channel.send("owo hunt");
-      logger.hunt(`Hunt Command Executed`);
-    }, consts.huntInterval);
+      channel.send("owo battle");
+      logger.battle(`Battle Command Executed`);
+    }, consts.battleInterval);
   }
 }
 

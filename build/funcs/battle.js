@@ -55,23 +55,27 @@ var __importStar =
       return result;
     };
   })();
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : { default: mod };
+  };
 Object.defineProperty(exports, "__esModule", { value: true });
-const colors = __importStar(require("ansi-colors"));
-function status(message) {
-  console.log(colors.blue(`[STATUS] ${message}`));
+const fs = __importStar(require("fs"));
+const path = __importStar(require("path"));
+const logger_1 = __importDefault(require("../utils/logger"));
+async function execute(client) {
+  const configPath = path.join(__dirname, "../../consts.json");
+  const consts = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+  const channelId = consts.channelId;
+  const channel = client.channels.cache.get(channelId);
+  if (channel && channel.isText() && !client.info.paused) {
+    setInterval(() => {
+      channel.send("owo battle");
+      logger_1.default.battle(`Battle Command Executed`);
+    }, consts.battleInterval);
+  }
 }
-function error(message) {
-  console.log(colors.red(`[ERROR] ${message}`));
-}
-function hunt(message) {
-  console.log(colors.green(`[HUNT] ${message}`));
-}
-function battle(message) {
-  console.log(colors.yellow(`[BATTLE] ${message}`));
-}
-exports.default = {
-  status,
-  error,
-  hunt,
-  battle,
+module.exports = {
+  execute,
 };

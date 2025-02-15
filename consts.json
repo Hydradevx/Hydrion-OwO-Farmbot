@@ -1,4 +1,5 @@
 {
   "channelId": "1334013835912282156",
-  "huntInterval": 14000
+  "huntInterval": 15000,
+  "battleInterval": 16500
 }
