@@ -37,6 +37,7 @@ async function detect(message) {
     ) {
       info_1.default.setCaptcha(true);
       info_1.default.increaseCaptcha();
+      logger_1.default.status("captcha detected");
       if (
         message.components.length > 0 &&
         message.components[0].components[0]
