@@ -9,6 +9,11 @@ exports.default = detect;
 const client_1 = require("../structures/client");
 const info_1 = __importDefault(require("../structures/info"));
 const logger_1 = __importDefault(require("../utils/logger"));
+const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
+const configPath = path_1.default.join(__dirname, "../../config.json");
+const config = JSON.parse(fs_1.default.readFileSync(configPath, "utf-8"));
+const gamble_1 = require("../funcs/gamble");
 const detectCaptcha = (msg, check1, check2) => {
   const captchawords = [".com", "link", "please use the link"];
   const iscaptcha = captchawords.some((word) => msg.includes(word));
@@ -57,6 +62,26 @@ async function detect(message) {
     }
     if (msg.includes("i have verified that you are human")) {
       info_1.default.setCaptcha(false);
+    }
+    if (msg.includes("You don't have enough cowoncy!")) {
+      let cowoncyerrortime = 0;
+      if (cowoncyerrortime === 0) {
+        cowoncyerrortime = Date.now();
+      }
+      const now = Date.now();
+      if (config.autosell) {
+        if (now - cowoncyerrortime > 60000) {
+          cowoncyerrortime = now;
+          (0, gamble_1.sell)(client_1.client);
+        } else if (now - cowoncyerrortime < 60000) {
+          logger_1.default.warn(`You don't have enough cowoncy!`);
+          logger_1.default.warn(`Stopping the bot...`);
+          process.exit();
+        }
+      } else {
+        logger_1.default.warn(`You don't have enough cowoncy!`);
+        logger_1.default.warn(`Stopping the bot...`);
+      }
     }
   }
 }

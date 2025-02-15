@@ -1,6 +1,11 @@
 import { client } from "../structures/client";
 import info from "../structures/info";
 import logger from "../utils/logger";
+import fs from "fs";
+import path from "path";
+const configPath = path.join(__dirname, "../../config.json");
+const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+import { sell } from "../funcs/gamble";
 
 const detectCaptcha = (msg: string, check1: boolean, check2: boolean) => {
   const captchawords = [".com", "link", "please use the link"];
@@ -56,6 +61,27 @@ export default async function detect(message: any) {
 
     if (msg.includes("i have verified that you are human")) {
       info.setCaptcha(false);
+    }
+
+    if (msg.includes("You don't have enough cowoncy!")) {
+      let cowoncyerrortime: any = 0;
+      if (cowoncyerrortime === 0) {
+        cowoncyerrortime = Date.now();
+      }
+      const now = Date.now();
+      if (config.autosell) {
+        if (now - cowoncyerrortime > 60000) {
+          cowoncyerrortime = now;
+          sell(client);
+        } else if (now - cowoncyerrortime < 60000) {
+          logger.warn(`You don't have enough cowoncy!`);
+          logger.warn(`Stopping the bot...`);
+          process.exit();
+        }
+      } else {
+        logger.warn(`You don't have enough cowoncy!`);
+        logger.warn(`Stopping the bot...`);
+      }
     }
   }
 }

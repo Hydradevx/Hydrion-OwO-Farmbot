@@ -61,18 +61,19 @@ var __importDefault =
     return mod && mod.__esModule ? mod : { default: mod };
   };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.sell = sell;
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const logger_1 = __importDefault(require("../utils/logger"));
 const info_1 = __importDefault(require("../structures/info"));
+const configPath = path.join(__dirname, "../../config.json");
+const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+const constsPath = path.join(__dirname, "../../consts.json");
+const consts = JSON.parse(fs.readFileSync(constsPath, "utf-8"));
+const channelId = consts.channelId;
 async function execute(client) {
-  const configPath = path.join(__dirname, "../../config.json");
-  const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
-  if (!config.gamble) return;
-  const constsPath = path.join(__dirname, "../../consts.json");
-  const consts = JSON.parse(fs.readFileSync(constsPath, "utf-8"));
-  const channelId = consts.channelId;
   const channel = client.channels.cache.get(channelId);
+  if (!config.gamble) return;
   if (channel?.isText()) {
     setInterval(() => {
       if (!info_1.default.getPaused() && !info_1.default.getCaptcha()) {
@@ -104,6 +105,10 @@ function getHeadsOrTails() {
     return "heads";
   }
   return "tails";
+}
+function sell(client) {
+  const channel = client.channels.cache.get(channelId);
+  channel.send("owo sell all");
 }
 module.exports = {
   execute,
