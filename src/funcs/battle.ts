@@ -10,7 +10,7 @@ async function execute(client: any) {
   const channel = client.channels.cache.get(channelId);
   if (channel?.isText()) {
     setInterval(() => {
-      if (!info.getPaused()) {
+      if (!info.getPaused() && !info.getCaptcha()) {
         channel.send("owo battle");
         logger.battle(`Battle Command Executed`);
       }
