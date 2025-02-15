@@ -1,3 +1,5 @@
+import logger from "../utils/logger";
+
 module.exports = {
   name: "help",
   aliases: ["h"],
@@ -16,7 +18,7 @@ module.exports = {
     `,
     );
 
-    console.log("Help Command has been executed");
+    logger.cmd("Help Command has been executed");
 
     if (message.author.id === message.client.user.id) {
       message.delete().catch(() => {});

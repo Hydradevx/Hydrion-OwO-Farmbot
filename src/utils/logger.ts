@@ -28,6 +28,10 @@ function gamble(message: string) {
   console.log(colors.cyan(`[GAMBLE] ${message}`));
 }
 
+function cmd(message: string) {
+  console.log(colors.cyan(`[COMMAND] ${message}`));
+}
+
 export default {
   status,
   error,
@@ -36,4 +40,5 @@ export default {
   warn,
   info,
   gamble,
+  cmd,
 };

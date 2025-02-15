@@ -78,6 +78,9 @@ function battle(message) {
 function gamble(message) {
   console.log(colors.cyan(`[GAMBLE] ${message}`));
 }
+function cmd(message) {
+  console.log(colors.cyan(`[COMMAND] ${message}`));
+}
 exports.default = {
   status,
   error,
@@ -86,4 +89,5 @@ exports.default = {
   warn,
   info,
   gamble,
+  cmd,
 };

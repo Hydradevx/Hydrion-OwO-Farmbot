@@ -1,4 +1,5 @@
 import info from "../structures/info";
+import logger from "../utils/logger";
 
 module.exports = {
   name: "resume",
@@ -8,7 +9,7 @@ module.exports = {
 
     message.channel.send("The bot has been resumed.");
 
-    console.log("Resume Command has been executed");
+    logger.cmd("Resume Command has been executed");
 
     if (message.author.id === message.client.user.id) {
       message.delete().catch(() => {});
