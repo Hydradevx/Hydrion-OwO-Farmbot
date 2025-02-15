@@ -1,13 +1,16 @@
 import logger from "../utils/logger";
 
 module.exports = {
-  name: "pause",
-  aliases: ["p"],
-  execute(message: any, prefix: string, client: any) {
+  name: "kill",
+  aliases: ["k"],
+  execute(message: any, client: any) {
+    message.delete();
     message.channel.send("Killing the bot process.");
 
     logger.cmd("Kill Command has been executed");
 
-    process.exit(0);
+    setTimeout(() => {
+      process.exit(0);
+    }, 3000);
   },
 };

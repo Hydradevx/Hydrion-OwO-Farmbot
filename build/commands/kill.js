@@ -7,11 +7,14 @@ var __importDefault =
 Object.defineProperty(exports, "__esModule", { value: true });
 const logger_1 = __importDefault(require("../utils/logger"));
 module.exports = {
-  name: "pause",
-  aliases: ["p"],
-  execute(message, prefix, client) {
+  name: "kill",
+  aliases: ["k"],
+  execute(message, client) {
+    message.delete();
     message.channel.send("Killing the bot process.");
     logger_1.default.cmd("Kill Command has been executed");
-    process.exit(0);
+    setTimeout(() => {
+      process.exit(0);
+    }, 3000);
   },
 };

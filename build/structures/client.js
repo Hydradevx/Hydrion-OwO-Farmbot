@@ -67,6 +67,7 @@ const discord_js_selfbot_v13_1 = require("discord.js-selfbot-v13");
 const logger_1 = __importDefault(require("../utils/logger"));
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
+const rpc_1 = require("../utils/rpc");
 let configPath = path.join(__dirname, "../../config.json");
 let config;
 if (fs.existsSync(configPath)) {
@@ -80,6 +81,7 @@ exports.client = new discord_js_selfbot_v13_1.Client();
 exports.client.on("ready", async () => {
   if (exports.client.user) {
     logger_1.default.status(`Logged in as ${exports.client.user.tag}`);
+    (0, rpc_1.rpc)(exports.client);
   }
 });
 function cl_start() {

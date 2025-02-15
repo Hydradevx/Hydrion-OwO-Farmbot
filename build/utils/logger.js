@@ -90,7 +90,7 @@ function initLogger() {
   log(colors.green("Logger initialized."));
 }
 function status(message) {
-  log(colors.blue(`[STATUS] ${message}`));
+  log(colors.cyan(`[STATUS] ${message}`));
 }
 function warn(message) {
   log(colors.red(`[WARN] ${message}`));

@@ -2,6 +2,7 @@ import { Client } from "discord.js-selfbot-v13";
 import logger from "../utils/logger";
 import * as fs from "fs";
 import * as path from "path";
+import { rpc } from "../utils/rpc";
 
 interface Config {
   token: string;
@@ -23,6 +24,7 @@ export const client: any = new Client();
 client.on("ready", async () => {
   if (client.user) {
     logger.status(`Logged in as ${client.user.tag}`);
+    rpc(client);
   }
 });
 
