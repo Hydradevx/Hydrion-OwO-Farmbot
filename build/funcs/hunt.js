@@ -64,15 +64,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const logger_1 = __importDefault(require("../utils/logger"));
+const info_1 = __importDefault(require("../structures/info"));
 async function execute(client) {
   const configPath = path.join(__dirname, "../../consts.json");
   const consts = JSON.parse(fs.readFileSync(configPath, "utf-8"));
   const channelId = consts.channelId;
   const channel = client.channels.cache.get(channelId);
-  if (channel && channel.isText() && !client.info.paused) {
+  if (channel?.isText()) {
     setInterval(() => {
-      channel.send("owo hunt");
-      logger_1.default.hunt(`Hunt Command Executed`);
+      if (!info_1.default.getPaused()) {
+        channel.send("owo hunt");
+        logger_1.default.hunt(`Hunt Command Executed`);
+      }
     }, consts.huntInterval);
   }
 }

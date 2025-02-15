@@ -1,8 +1,10 @@
+import info from "../structures/info";
+
 module.exports = {
   name: "resume",
   aliases: ["r"],
   execute(message: any, prefix: string, client: any) {
-    client.info.paused = false;
+    info.setPaused(false);
 
     message.channel.send("The bot has been resumed.");
 

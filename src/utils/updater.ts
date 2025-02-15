@@ -8,7 +8,7 @@ import path from "path";
 export default async function update() {
   try {
     const rawFileUrl =
-      "https://raw.githubusercontent.com/Hydradevx/Hydrion-S3LFB0T/refs/heads/main/package.json";
+      "https://raw.githubusercontent.com/Hydradevx/Hydrion-OwO-Farmbot/refs/heads/main/package.json";
 
     const headers = {
       "User-Agent":
@@ -29,7 +29,7 @@ export default async function update() {
 
     const version = Json.version;
 
-    if (ghVersion !== version) {
+    if (ghVersion > version) {
       logger.status(`New version available: ${ghVersion}`);
       logger.warn(
         "Please backup your config.json and install the latest version to continue using Hydrion!! Thank you",

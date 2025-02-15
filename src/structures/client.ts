@@ -29,7 +29,3 @@ client.on("ready", async () => {
 export function cl_start() {
   client.login(config.token);
 }
-
-client.info = {
-  paused: false,
-};

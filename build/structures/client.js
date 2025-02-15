@@ -85,6 +85,3 @@ exports.client.on("ready", async () => {
 function cl_start() {
   exports.client.login(config.token);
 }
-exports.client.info = {
-  paused: false,
-};

@@ -15,7 +15,7 @@ const path_1 = __importDefault(require("path"));
 async function update() {
   try {
     const rawFileUrl =
-      "https://raw.githubusercontent.com/Hydradevx/Hydrion-S3LFB0T/refs/heads/main/package.json";
+      "https://raw.githubusercontent.com/Hydradevx/Hydrion-OwO-Farmbot/refs/heads/main/package.json";
     const headers = {
       "User-Agent":
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537",
@@ -38,7 +38,7 @@ async function update() {
     );
     const Json = JSON.parse(packageJsonContent);
     const version = Json.version;
-    if (ghVersion !== version) {
+    if (ghVersion > version) {
       logger_1.default.status(`New version available: ${ghVersion}`);
       logger_1.default.warn(
         "Please backup your config.json and install the latest version to continue using Hydrion!! Thank you",

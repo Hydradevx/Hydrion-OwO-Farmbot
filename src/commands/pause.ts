@@ -1,8 +1,10 @@
+import info from "../structures/info";
+
 module.exports = {
   name: "pause",
   aliases: ["p"],
   execute(message: any, prefix: string, client: any) {
-    client.info.paused = true;
+    info.setPaused(true);
 
     message.channel.send("The bot has been paused.");
 
