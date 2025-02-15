@@ -33,6 +33,7 @@ export default async function detect(message: any) {
     ) {
       info.setCaptcha(true);
       info.increaseCaptcha();
+      logger.status("captcha detected");
 
       if (
         message.components.length > 0 &&
