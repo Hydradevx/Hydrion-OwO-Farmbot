@@ -1,35 +1,80 @@
 import * as colors from "ansi-colors";
 
+interface LogFunction {
+  (message: string): void;
+}
+
+let logs: string[] = [];
+const maxLogs = process.stdout.rows - 10;
+
+const Json = require("../../package.json");
+
+const log: LogFunction = (message: string) => {
+  logs.push(message);
+  console.log(message);
+  renderLogs();
+};
+
+function displayTextArt(): void {
+  const textArt = `
+    ${colors.cyanBright("██╗░░██╗██╗░░░██╗██████╗░██████╗░██╗░█████╗░███╗░░██╗")}
+    ${colors.cyanBright("██║░░██║╚██╗░██╔╝██╔══██╗██╔══██╗██║██╔══██╗████╗░██║")}
+    ${colors.cyanBright("███████║░╚████╔╝░██║░░██║██████╔╝██║██║░░██║██╔██╗██║")}
+    ${colors.cyanBright("██╔══██║░░╚██╔╝░░██║░░██║██╔══██╗██║██║░░██║██║╚████║")}
+    ${colors.cyanBright("██║░░██║░░░██║░░░██████╔╝██║░░██║██║╚█████╔╝██║░╚███║")}
+    ${colors.cyanBright(`╚═╝░░╚═╝░░░╚═╝░░░╚═════╝░╚═╝░░╚═╝╚═╝░╚════╝░╚═╝░░╚══╝`)}
+    ${colors.cyanBright(`OwO FarmBot v${Json.version}`)}
+    `;
+
+  console.clear();
+  console.log(textArt);
+}
+
+function renderLogs(): void {
+  displayTextArt();
+  console.log(colors.green("\nLogs:\n"));
+
+  const logsToShow = logs.slice(-maxLogs);
+
+  logsToShow.forEach((logText) => {
+    console.log(logText);
+  });
+}
+
+function initLogger(): void {
+  log(colors.green("Logger initialized."));
+}
+
 function status(message: string) {
-  console.log(colors.blue(`[STATUS] ${message}`));
+  log(colors.cyan(`[STATUS] ${message}`));
 }
 
 function warn(message: string) {
-  console.log(colors.red(`[WARN] ${message}`));
+  log(colors.red(`[WARN] ${message}`));
 }
 
 function info(message: string) {
-  console.log(colors.blue(`[INFO] ${message}`));
+  log(colors.blue(`[INFO] ${message}`));
 }
 
 function error(message: string) {
-  console.log(colors.red(`[ERROR] ${message}`));
+  log(colors.red(`[ERROR] ${message}`));
 }
 
 function hunt(message: string) {
-  console.log(colors.green(`[HUNT] ${message}`));
+  log(colors.green(`[HUNT] ${message}`));
 }
 
 function battle(message: string) {
-  console.log(colors.yellow(`[BATTLE] ${message}`));
+  log(colors.yellow(`[BATTLE] ${message}`));
 }
 
 function gamble(message: string) {
-  console.log(colors.cyan(`[GAMBLE] ${message}`));
+  log(colors.cyan(`[GAMBLE] ${message}`));
 }
 
 function cmd(message: string) {
-  console.log(colors.cyan(`[COMMAND] ${message}`));
+  log(colors.cyan(`[COMMAND] ${message}`));
 }
 
 export default {
@@ -41,4 +86,5 @@ export default {
   info,
   gamble,
   cmd,
+  initLogger,
 };

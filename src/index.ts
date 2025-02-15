@@ -4,6 +4,8 @@ import { Collection } from "discord.js-selfbot-v13";
 import fs from "fs";
 import path from "path";
 import update from "./utils/updater";
+import antiCrash from "./utils/antiCrash";
+import logger from "./utils/logger";
 
 const configPath = path.join(__dirname, "../config.json");
 const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
@@ -11,7 +13,9 @@ const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
 update();
 
 function start() {
+  logger.initLogger();
   cl_start();
+  antiCrash();
   startFarm(client);
 }
 

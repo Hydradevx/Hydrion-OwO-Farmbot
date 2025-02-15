@@ -11,11 +11,15 @@ const discord_js_selfbot_v13_1 = require("discord.js-selfbot-v13");
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const updater_1 = __importDefault(require("./utils/updater"));
+const antiCrash_1 = __importDefault(require("./utils/antiCrash"));
+const logger_1 = __importDefault(require("./utils/logger"));
 const configPath = path_1.default.join(__dirname, "../config.json");
 const config = JSON.parse(fs_1.default.readFileSync(configPath, "utf-8"));
 (0, updater_1.default)();
 function start() {
+  logger_1.default.initLogger();
   (0, client_1.cl_start)();
+  (0, antiCrash_1.default)();
   (0, farmbot_1.startFarm)(client_1.client);
 }
 start();
