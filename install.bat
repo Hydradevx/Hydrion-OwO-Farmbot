@@ -1,0 +1,16 @@
+@echo off
+cls
+echo [+] Updating system packages...
+timeout /t 2
+winget upgrade --all
+echo [+] Installing dependencies...
+timeout /t 2
+winget install Git.NodeJS
+echo [+] Cloning Hydrion-OwO-Farmer repository...
+git clone https://github.com/Hydradevx/Hydrion-OwO-Farmer.git
+cd Hydrion-OwO-Farmer
+echo [+] Installing Node.js dependencies...
+npm install
+echo [=] Installation complete! Starting Hydrion-OwO-Farmer...
+npm start
+pause
