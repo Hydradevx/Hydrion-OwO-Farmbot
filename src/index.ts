@@ -1,4 +1,4 @@
-import { startFarm } from "./utils/farmbot";
+import { startFarm } from "./structures/farmbot";
 import { cl_start, client } from "./structures/client";
 
 function start() {

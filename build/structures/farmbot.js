@@ -61,21 +61,18 @@ var __importDefault =
     return mod && mod.__esModule ? mod : { default: mod };
   };
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs = __importStar(require("fs"));
+exports.startFarm = startFarm;
+const fs_1 = __importDefault(require("fs"));
 const path = __importStar(require("path"));
-const logger_1 = __importDefault(require("../utils/logger"));
-function execute(client) {
-  const configPath = path.join(__dirname, "../../consts.json");
-  const consts = JSON.parse(fs.readFileSync(configPath, "utf-8"));
-  const channelId = consts.channelId;
-  const channel = client.channels.cache.get(channelId);
-  if (channel && channel.isText()) {
-    setInterval(() => {
-      channel.send("owo hunt");
-      logger_1.default.hunt(`Hunt Command Executed`);
-    }, consts.huntInterval);
-  }
+function startFarm(client) {
+  client.on("ready", async () => {
+    const funcPath = path.join(__dirname, "../funcs");
+    const funcFiles = fs_1.default.readdirSync(funcPath);
+    funcFiles.forEach((file) => {
+      const func = require(path.join(funcPath, file));
+      if (func.execute) {
+        func.execute(client);
+      }
+    });
+  });
 }
-module.exports = {
-  execute,
-};

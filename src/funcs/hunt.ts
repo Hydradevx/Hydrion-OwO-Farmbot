@@ -1,5 +1,5 @@
-import fs from "fs";
-import path from "path";
+import * as fs from "fs";
+import * as path from "path";
 import logger from "../utils/logger";
 
 function execute(client: any) {
@@ -8,7 +8,7 @@ function execute(client: any) {
   const channelId = consts.channelId;
  // add client. on ready async for each func
   const channel = client.channels.cache.get(channelId);
-  if (channel && channel.isText() && !client.info.paused) {
+  if (channel && channel.isText()) {
     setInterval(() => {
       channel.send("owo hunt");
       logger.hunt(`Hunt Command Executed`);

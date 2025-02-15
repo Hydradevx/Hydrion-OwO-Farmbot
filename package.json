@@ -7,7 +7,8 @@
     "test": "node build/index.js",
     "start": "node build/index.js",
     "build": "tsc",
-    "lint": "eslint . --ext .ts",
+    "lint": "eslint .",
+    "dev": "tsc && node build/index.js",
     "format": "prettier --write ."
   },
   "keywords": [

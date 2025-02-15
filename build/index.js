@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const farmbot_1 = require("./utils/farmbot");
+const farmbot_1 = require("./structures/farmbot");
 const client_1 = require("./structures/client");
 function start() {
   (0, client_1.cl_start)();
