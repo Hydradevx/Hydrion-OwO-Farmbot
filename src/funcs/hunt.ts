@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import logger from "../utils/logger";
 import info from "../structures/info";
+import { filtergem } from "./inventory";
 
 async function execute(client: any) {
   const configPath = path.join(__dirname, "../../config.json");
@@ -15,7 +16,18 @@ async function execute(client: any) {
   if (channel?.isText()) {
     setInterval(() => {
       if (!info.getPaused() && !info.getCaptcha()) {
-        channel.send("owo hunt");
+        channel.send("owo hunt").then((message: any) => {
+          const filter = (m: any) => m.content.includes("hunt");
+          const collector = message.channel.createMessageCollector({
+            filter,
+            max: 1,
+            time: 10000,
+          });
+          collector.on("collect", (m: any) => {
+            filtergem(m);
+            collector.stop();
+          });
+        });
         logger.hunt(`Hunt Command Executed`);
       }
     }, consts.huntInterval);

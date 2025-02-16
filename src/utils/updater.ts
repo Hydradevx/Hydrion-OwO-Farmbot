@@ -39,7 +39,7 @@ export default async function update() {
         {
           type: "confirm",
           name: "update",
-          message: "Do you want to update now?",
+          message: `Do you want to update now? ( v${version} -> v${ghVersion})`,
         },
       ]);
 

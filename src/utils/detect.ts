@@ -63,8 +63,8 @@ export default async function detect(message: any) {
       info.setCaptcha(false);
     }
 
+    let cowoncyerrortime: any = 0;  
     if (msg.includes("You don't have enough cowoncy!")) {
-      let cowoncyerrortime: any = 0;
       if (cowoncyerrortime === 0) {
         cowoncyerrortime = Date.now();
       }
