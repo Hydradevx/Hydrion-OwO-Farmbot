@@ -2,11 +2,6 @@ import fs from "fs";
 import path from "path";
 import readline from "readline";
 import colors from "ansi-colors";
-import { fileURLToPath } from "url";
-
-// Fix for ES module
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const textArt = `
     ${colors.cyanBright("██╗░░██╗██╗░░░██╗██████╗░██████╗░██╗░█████╗░███╗░░██╗")}
@@ -77,8 +72,9 @@ async function configure() {
     autosell: await askQuestion("Enable auto sell?"),
     huntbot: await askQuestion("Enable hunt bot?"),
     trait: await askTrait(),
-    lowest: await askQuestion("Enable lowest value mode?"),
+    lowest: await askQuestion("Enable use lowest Value gems first?"),
     inventory: await askQuestion("Enable inventory management?"),
+    luck: await askQuestion("Enable Auto Luck points?"),
   };
 
   const configPath = path.join(__dirname, "../../config.json");

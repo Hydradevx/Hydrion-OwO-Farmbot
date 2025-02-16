@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const info = {
   paused: false,
   captcha: false,
@@ -18,4 +20,4 @@ const info = {
     this.totalcaptcha++;
   },
 };
-export default info;
+exports.default = info;

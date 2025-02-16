@@ -81,6 +81,10 @@ function gem(message: string) {
   log(colors.cyan(`[GEM] ${message}`));
 }
 
+function luck(message: string) {
+  log(colors.yellowBright(`[LUCK] ${message}`));
+}
+
 export default {
   status,
   error,
@@ -92,4 +96,5 @@ export default {
   cmd,
   initLogger,
   gem,
+  luck,
 };

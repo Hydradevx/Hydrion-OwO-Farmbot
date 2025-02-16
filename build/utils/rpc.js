@@ -1,11 +1,19 @@
-import { RichPresence } from "discord.js-selfbot-v13";
-import logger from "./logger";
-export function rpc(client) {
+"use strict";
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : { default: mod };
+  };
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.rpc = rpc;
+const discord_js_selfbot_v13_1 = require("discord.js-selfbot-v13");
+const logger_1 = __importDefault(require("./logger"));
+function rpc(client) {
   if (!client || !client.user) {
     console.error("Client is not initialized or logged in.");
     return;
   }
-  const status = new RichPresence(client)
+  const status = new discord_js_selfbot_v13_1.RichPresence(client)
     .setApplicationId("1340347268309586060")
     .setType("PLAYING")
     .setName("Hydrion OwO Farmer")
@@ -19,5 +27,5 @@ export function rpc(client) {
     )
     .addButton("Discord 💬", "https://discord.gg/6Tufbvnebj");
   client.user.setActivity(status);
-  logger.status("Started Hydrion OwO Farmer Discord RPC");
+  logger_1.default.status("Started Hydrion OwO Farmer Discord RPC");
 }

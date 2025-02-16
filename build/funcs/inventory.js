@@ -1,12 +1,76 @@
-import logger from "../utils/logger";
-import { client } from "../structures/client";
-import * as fs from "fs";
-import * as path from "path";
+"use strict";
+var __createBinding =
+  (this && this.__createBinding) ||
+  (Object.create
+    ? function (o, m, k, k2) {
+        if (k2 === undefined) k2 = k;
+        var desc = Object.getOwnPropertyDescriptor(m, k);
+        if (
+          !desc ||
+          ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)
+        ) {
+          desc = {
+            enumerable: true,
+            get: function () {
+              return m[k];
+            },
+          };
+        }
+        Object.defineProperty(o, k2, desc);
+      }
+    : function (o, m, k, k2) {
+        if (k2 === undefined) k2 = k;
+        o[k2] = m[k];
+      });
+var __setModuleDefault =
+  (this && this.__setModuleDefault) ||
+  (Object.create
+    ? function (o, v) {
+        Object.defineProperty(o, "default", { enumerable: true, value: v });
+      }
+    : function (o, v) {
+        o["default"] = v;
+      });
+var __importStar =
+  (this && this.__importStar) ||
+  (function () {
+    var ownKeys = function (o) {
+      ownKeys =
+        Object.getOwnPropertyNames ||
+        function (o) {
+          var ar = [];
+          for (var k in o)
+            if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+          return ar;
+        };
+      return ownKeys(o);
+    };
+    return function (mod) {
+      if (mod && mod.__esModule) return mod;
+      var result = {};
+      if (mod != null)
+        for (var k = ownKeys(mod), i = 0; i < k.length; i++)
+          if (k[i] !== "default") __createBinding(result, mod, k[i]);
+      __setModuleDefault(result, mod);
+      return result;
+    };
+  })();
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : { default: mod };
+  };
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.filtergem = filtergem;
+const logger_1 = __importDefault(require("../utils/logger"));
+const client_1 = require("../structures/client");
+const fs = __importStar(require("fs"));
+const path = __importStar(require("path"));
 let gem_1 = true;
 let gem_3 = true;
 let gem_4 = true;
 let star_ = true;
-export async function filtergem(m) {
+async function filtergem(m) {
   let g1 = true;
   let g3 = true;
   let g4 = true;
@@ -67,7 +131,7 @@ async function equip(g1, g3, g4, s) {
   const constsPath = path.join(__dirname, "../../consts.json");
   const consts = JSON.parse(fs.readFileSync(constsPath, "utf-8"));
   const channelId = consts.channelId;
-  const channel = client.channels.cache.get(channelId);
+  const channel = client_1.client.channels.cache.get(channelId);
   channel.send("owo inv").then(async (inv_msg) => {
     const id = inv_msg.id;
     const message = await getMessage(id);
@@ -81,15 +145,15 @@ async function equip(g1, g3, g4, s) {
         const listener = (msg) => {
           if (filter(msg)) {
             clearTimeout(timer);
-            client.off("messageCreate", listener);
+            client_1.client.off("messageCreate", listener);
             resolve(msg);
           }
         };
         const timer = setTimeout(() => {
-          client.off("messageCreate", listener);
+          client_1.client.off("messageCreate", listener);
           resolve(null);
         }, 6100);
-        client.on("messageCreate", listener);
+        client_1.client.on("messageCreate", listener);
         const collector = channel.createMessageCollector({
           filter,
           time: 6100,
@@ -117,13 +181,13 @@ async function equip(g1, g3, g4, s) {
     await new Promise((resolve) => setTimeout(resolve, 12000));
     if (gems.includes("50")) {
       channel.send("owo lb all");
-      logger.gem("Opening loot boxes");
+      logger_1.default.gem("Opening loot boxes");
       equip(g1, g3, g4, s);
       return;
     }
     if (gems.includes("100")) {
       channel.send("owo crate all");
-      logger.gem("Opening Crates");
+      logger_1.default.gem("Opening Crates");
       equip(g1, g3, g4, s);
       return;
     }
@@ -170,9 +234,11 @@ async function equip(g1, g3, g4, s) {
     }
     if (gem__1 !== "0" || gem__3 !== "0" || gem__4 !== "0" || star__ !== "0") {
       channel.send(`owo equip ${gem__1} ${gem__3} ${gem__4} ${star__}`);
-      logger.gem(`Equipping Gems: ${gem__1} ${gem__3} ${gem__4} ${star__}`);
+      logger_1.default.gem(
+        `Equipping Gems: ${gem__1} ${gem__3} ${gem__4} ${star__}`,
+      );
     } else {
-      logger.gem("No valid gems found to equip.");
+      logger_1.default.gem("No valid gems found to equip.");
     }
   });
 }

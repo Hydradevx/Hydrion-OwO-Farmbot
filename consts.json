@@ -6,5 +6,6 @@
   "gamble": {
     "cf_bet": 2000,
     "s_bet": 1000
-  }
+  },
+  "luckInterval": 28800000
 }
