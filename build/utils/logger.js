@@ -113,6 +113,9 @@ function gamble(message) {
 function cmd(message) {
   log(colors.cyan(`[COMMAND] ${message}`));
 }
+function gem(message) {
+  log(colors.cyan(`[GEM] ${message}`));
+}
 exports.default = {
   status,
   error,
@@ -123,4 +126,5 @@ exports.default = {
   gamble,
   cmd,
   initLogger,
+  gem,
 };

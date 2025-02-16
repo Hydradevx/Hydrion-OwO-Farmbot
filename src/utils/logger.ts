@@ -77,6 +77,10 @@ function cmd(message: string) {
   log(colors.cyan(`[COMMAND] ${message}`));
 }
 
+function gem(message: string) {
+  log(colors.cyan(`[GEM] ${message}`));
+}
+
 export default {
   status,
   error,
@@ -87,4 +91,5 @@ export default {
   gamble,
   cmd,
   initLogger,
+  gem,
 };
