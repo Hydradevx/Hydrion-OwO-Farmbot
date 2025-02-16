@@ -1,18 +1,10 @@
-"use strict";
-var __importDefault =
-  (this && this.__importDefault) ||
-  function (mod) {
-    return mod && mod.__esModule ? mod : { default: mod };
-  };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = update;
 const axios = require("axios");
-const logger_1 = __importDefault(require("../utils/logger"));
-const inquirer_1 = __importDefault(require("inquirer"));
+import logger from "../utils/logger";
+import inquirer from "inquirer";
 const { spawn } = require("child_process");
-const fs_1 = __importDefault(require("fs"));
-const path_1 = __importDefault(require("path"));
-async function update() {
+import fs from "fs";
+import path from "path";
+export default async function update() {
   try {
     const rawFileUrl =
       "https://raw.githubusercontent.com/Hydradevx/Hydrion-OwO-Farmbot/refs/heads/main/package.json";
@@ -22,28 +14,20 @@ async function update() {
     };
     const response = await axios.get(rawFileUrl, { headers });
     if (!response.data || !response.data.version) {
-      logger_1.default.warn(
-        "Failed to fetch latest version. Response is invalid.",
-      );
+      logger.warn("Failed to fetch latest version. Response is invalid.");
       return;
     }
     const ghVersion = response.data.version;
-    const packageJsonPath = path_1.default.join(
-      __dirname,
-      "../../package.json",
-    );
-    const packageJsonContent = fs_1.default.readFileSync(
-      packageJsonPath,
-      "utf-8",
-    );
+    const packageJsonPath = path.join(__dirname, "../../package.json");
+    const packageJsonContent = fs.readFileSync(packageJsonPath, "utf-8");
     const Json = JSON.parse(packageJsonContent);
     const version = Json.version;
     if (ghVersion > version) {
-      logger_1.default.status(`New version available: ${ghVersion}`);
-      logger_1.default.warn(
+      logger.status(`New version available: ${ghVersion}`);
+      logger.warn(
         "Please backup your config.json and install the latest version to continue using Hydrion!! Thank you",
       );
-      const { update } = await inquirer_1.default.prompt([
+      const { update } = await inquirer.prompt([
         {
           type: "confirm",
           name: "update",
@@ -51,20 +35,20 @@ async function update() {
         },
       ]);
       if (update) {
-        logger_1.default.info("Updating...");
+        logger.info("Updating...");
         const git = spawn("git", ["pull"], { stdio: "inherit" });
         git.on("close", (code) => {
           if (code === 0) {
-            logger_1.default.info("Update successful!");
+            logger.info("Update successful!");
           } else {
-            logger_1.default.warn("Update failed!");
+            logger.warn("Update failed!");
           }
         });
       }
     } else {
-      logger_1.default.info(`You are running the latest version: ${version}`);
+      logger.info(`You are running the latest version: ${version}`);
     }
   } catch (error) {
-    logger_1.default.warn(`Error checking for updates: ${error.message}`);
+    logger.warn(`Error checking for updates: ${error.message}`);
   }
 }

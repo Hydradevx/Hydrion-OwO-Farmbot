@@ -1,11 +1,4 @@
-"use strict";
-var __importDefault =
-  (this && this.__importDefault) ||
-  function (mod) {
-    return mod && mod.__esModule ? mod : { default: mod };
-  };
-Object.defineProperty(exports, "__esModule", { value: true });
-const logger_1 = __importDefault(require("../utils/logger"));
+import logger from "../utils/logger";
 module.exports = {
   name: "help",
   aliases: ["h"],
@@ -21,7 +14,7 @@ module.exports = {
 ✨ Add --info or --usage after a command to get more information about it.
 ✨ Selfbot crafted by \`@hydradevx\`
     `);
-    logger_1.default.cmd("Help Command has been executed");
+    logger.cmd("Help Command has been executed");
     if (message.author.id === message.client.user.id) {
       message.delete().catch(() => {});
     }

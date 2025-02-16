@@ -153,11 +153,15 @@ async function equip(g1: boolean, g3: boolean, g4: boolean, s: boolean) {
     let gem__4 = "0";
     let star__ = "0";
 
+    const parseGemNumbers = (gemArray: string[], min: number, max: number) =>
+      gemArray
+        .map(Number)
+        .filter((gem) => gem >= min && gem <= max)
+        .map(String);
+
     if (g1) {
-      const gem1Range = gems.filter(
-        (gem) => parseInt(gem) >= 51 && parseInt(gem) <= 57,
-      );
-      if (gem1Range.length > 0) {
+      const gem1Range = parseGemNumbers(gems, 51, 57);
+      if (gem1Range.length) {
         gem__1 = config.lowest
           ? Math.min(...gem1Range.map(Number)).toString()
           : Math.max(...gem1Range.map(Number)).toString();
@@ -165,10 +169,8 @@ async function equip(g1: boolean, g3: boolean, g4: boolean, s: boolean) {
     }
 
     if (g3) {
-      const gem3Range = gems.filter(
-        (gem) => parseInt(gem) >= 65 && parseInt(gem) <= 71,
-      );
-      if (gem3Range.length > 0) {
+      const gem3Range = parseGemNumbers(gems, 65, 71);
+      if (gem3Range.length) {
         gem__3 = config.lowest
           ? Math.min(...gem3Range.map(Number)).toString()
           : Math.max(...gem3Range.map(Number)).toString();
@@ -176,10 +178,8 @@ async function equip(g1: boolean, g3: boolean, g4: boolean, s: boolean) {
     }
 
     if (g4) {
-      const gem4Range = gems.filter(
-        (gem) => parseInt(gem) >= 72 && parseInt(gem) <= 78,
-      );
-      if (gem4Range.length > 0) {
+      const gem4Range = parseGemNumbers(gems, 72, 78);
+      if (gem4Range.length) {
         gem__4 = config.lowest
           ? Math.min(...gem4Range.map(Number)).toString()
           : Math.max(...gem4Range.map(Number)).toString();
@@ -187,16 +187,19 @@ async function equip(g1: boolean, g3: boolean, g4: boolean, s: boolean) {
     }
 
     if (s) {
-      const starRange = gems.filter(
-        (gem) => parseInt(gem) >= 79 && parseInt(gem) <= 85,
-      );
-      if (starRange.length > 0) {
+      const starRange = parseGemNumbers(gems, 79, 85);
+      if (starRange.length) {
         star__ = config.lowest
           ? Math.min(...starRange.map(Number)).toString()
           : Math.max(...starRange.map(Number)).toString();
       }
     }
-    channel.send(`owo equip ${gem__1} ${gem__3} ${gem__4} ${star__}`);
-    logger.gem(`Equipping Gems: ${gem__1} ${gem__3} ${gem__4} ${star__}`);
+
+    if (gem__1 !== "0" || gem__3 !== "0" || gem__4 !== "0" || star__ !== "0") {
+      channel.send(`owo equip ${gem__1} ${gem__3} ${gem__4} ${star__}`);
+      logger.gem(`Equipping Gems: ${gem__1} ${gem__3} ${gem__4} ${star__}`);
+    } else {
+      logger.gem("No valid gems found to equip.");
+    }
   });
 }

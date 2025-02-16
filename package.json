@@ -1,15 +1,17 @@
 {
   "name": "hydrion-owo-farmbot",
-  "version": "0.2.11",
+  "version": "0.2.13",
   "description": "OwO farmer by Hydrion",
   "main": "build/main.js",
+  "type": "module",
   "scripts": {
     "test": "node build/index.js",
     "start": "node build/index.js",
     "build": "tsc",
     "lint": "eslint .",
     "dev": "tsc && npm run format && node build/index.js",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "config": "node build/utils/config.js"
   },
   "keywords": [
     "owo",
