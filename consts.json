@@ -1,8 +1,8 @@
 {
   "channelId": "1334013835912282156",
-  "huntInterval": 15000,
-  "battleInterval": 16500,
-  "gambleInterval": 30000,
+  "huntInterval": 18000,
+  "battleInterval": 20500,
+  "gambleInterval": 40000,
   "gamble": {
     "cf_bet": 2000,
     "s_bet": 1000

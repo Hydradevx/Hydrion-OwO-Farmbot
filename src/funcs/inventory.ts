@@ -77,129 +77,126 @@ async function equip(g1: boolean, g3: boolean, g4: boolean, s: boolean) {
   const channelId = consts.channelId;
   const channel = client.channels.cache.get(channelId);
 
-  channel.send("owo inv").then(async (inv_msg: any) => {
-    const id = inv_msg.id;
-    const message = await getMessage(id);
+  const inv_msg = await channel.send("owo inv");
+  const id = inv_msg.id;
+  logger.gem(`Checking your inventory`);
 
-    async function getMessage(messageId: string): Promise<any> {
-      return new Promise((resolve) => {
-        const filter = (msg: any) =>
-          msg.content.includes("Inventory =") &&
-          msg.author.id === "408785106942164992" &&
-          msg.channel.id === channel.id &&
-          msg.id.localeCompare(messageId) > 0;
+  const message = await getMessage(id);
 
-        const listener = (msg: any) => {
-          if (filter(msg)) {
-            clearTimeout(timer);
-            client.off("messageCreate", listener);
-            resolve(msg);
-          }
-        };
+  async function getMessage(messageId: string): Promise<any> {
+    return new Promise((resolve) => {
+      const filter = (msg: any) =>
+        msg.content.includes("Inventory =") &&
+        msg.author.id === "408785106942164992" &&
+        msg.channel.id === channel.id &&
+        msg.id.localeCompare(messageId) > 0;
 
-        const timer = setTimeout(() => {
+      const listener = (msg: any) => {
+        if (filter(msg)) {
+          clearTimeout(timer);
           client.off("messageCreate", listener);
-          resolve(null);
-        }, 6100);
+          resolve(msg);
+        }
+      };
 
-        client.on("messageCreate", listener);
+      const timer = setTimeout(() => {
+        client.off("messageCreate", listener);
+        resolve(null);
+      }, 6100);
 
-        const collector = channel.createMessageCollector({
-          filter,
-          time: 6100,
-        });
+      client.on("messageCreate", listener);
 
-        collector.on("collect", (msg: any) => {
-          if (filter(msg)) {
-            collector.stop();
-            resolve(msg);
-          }
-        });
-
-        collector.on("end", () => resolve(null));
+      const collector = channel.createMessageCollector({
+        filter,
+        time: 6100,
       });
+
+      collector.on("collect", (msg: any) => {
+        if (filter(msg)) {
+          collector.stop();
+          resolve(msg);
+        }
+      });
+
+      collector.on("end", () => resolve(null));
+    });
+  }
+  let inventory = message.content;
+
+  if (inventory === null) {
+    equip(g1, g3, g4, s);
+    return;
+  }
+
+  let gems = [];
+  let regex = /`([^`]+)`/g;
+  let match;
+  while ((match = regex.exec(inventory)) !== null) {
+    gems.push(match[1]);
+  }
+
+  await new Promise((resolve) => setTimeout(resolve, 12000));
+
+  if (gems.includes("50")) {
+    channel.send("owo lb all");
+    logger.gem("Opening loot boxes");
+    equip(g1, g3, g4, s);
+    return;
+  }
+  if (gems.includes("100")) {
+    channel.send("owo crate all");
+    logger.gem("Opening Crates");
+    equip(g1, g3, g4, s);
+    return;
+  }
+
+  let gem__1 = "0";
+  let gem__3 = "0";
+  let gem__4 = "0";
+  let star__ = "0";
+
+  const parseGemNumbers = (gemArray: string[], min: number, max: number) =>
+    gemArray
+      .map(Number)
+      .filter((gem) => gem >= min && gem <= max)
+      .map(String);
+
+  if (g1) {
+    const gem1Range = parseGemNumbers(gems, 51, 57);
+    if (gem1Range.length) {
+      gem__1 = config.lowest
+        ? Math.min(...gem1Range.map(Number)).toString()
+        : Math.max(...gem1Range.map(Number)).toString();
     }
-    let inventory = message.content;
+  }
 
-    if (inventory === null) {
-      equip(g1, g3, g4, s);
-      return;
+  if (g3) {
+    const gem3Range = parseGemNumbers(gems, 65, 71);
+    if (gem3Range.length) {
+      gem__3 = config.lowest
+        ? Math.min(...gem3Range.map(Number)).toString()
+        : Math.max(...gem3Range.map(Number)).toString();
     }
+  }
 
-    let gems = [];
-    let regex = /`([^`]+)`/g;
-    let match;
-    while ((match = regex.exec(inventory)) !== null) {
-      gems.push(match[1]);
+  if (g4) {
+    const gem4Range = parseGemNumbers(gems, 72, 78);
+    if (gem4Range.length) {
+      gem__4 = config.lowest
+        ? Math.min(...gem4Range.map(Number)).toString()
+        : Math.max(...gem4Range.map(Number)).toString();
     }
+  }
 
-    await new Promise((resolve) => setTimeout(resolve, 12000));
-
-    if (gems.includes("50")) {
-      channel.send("owo lb all");
-      logger.gem("Opening loot boxes");
-      equip(g1, g3, g4, s);
-      return;
+  if (s) {
+    const starRange = parseGemNumbers(gems, 79, 85);
+    if (starRange.length) {
+      star__ = config.lowest
+        ? Math.min(...starRange.map(Number)).toString()
+        : Math.max(...starRange.map(Number)).toString();
     }
-    if (gems.includes("100")) {
-      channel.send("owo crate all");
-      logger.gem("Opening Crates");
-      equip(g1, g3, g4, s);
-      return;
-    }
+  }
 
-    let gem__1 = "0";
-    let gem__3 = "0";
-    let gem__4 = "0";
-    let star__ = "0";
-
-    const parseGemNumbers = (gemArray: string[], min: number, max: number) =>
-      gemArray
-        .map(Number)
-        .filter((gem) => gem >= min && gem <= max)
-        .map(String);
-
-    if (g1) {
-      const gem1Range = parseGemNumbers(gems, 51, 57);
-      if (gem1Range.length) {
-        gem__1 = config.lowest
-          ? Math.min(...gem1Range.map(Number)).toString()
-          : Math.max(...gem1Range.map(Number)).toString();
-      }
-    }
-
-    if (g3) {
-      const gem3Range = parseGemNumbers(gems, 65, 71);
-      if (gem3Range.length) {
-        gem__3 = config.lowest
-          ? Math.min(...gem3Range.map(Number)).toString()
-          : Math.max(...gem3Range.map(Number)).toString();
-      }
-    }
-
-    if (g4) {
-      const gem4Range = parseGemNumbers(gems, 72, 78);
-      if (gem4Range.length) {
-        gem__4 = config.lowest
-          ? Math.min(...gem4Range.map(Number)).toString()
-          : Math.max(...gem4Range.map(Number)).toString();
-      }
-    }
-
-    if (s) {
-      const starRange = parseGemNumbers(gems, 79, 85);
-      if (starRange.length) {
-        star__ = config.lowest
-          ? Math.min(...starRange.map(Number)).toString()
-          : Math.max(...starRange.map(Number)).toString();
-      }
-    }
-
-    if (gem__1 !== "0" || gem__3 !== "0" || gem__4 !== "0" || star__ !== "0") {
-      channel.send(`owo equip ${gem__1} ${gem__3} ${gem__4} ${star__}`);
-      logger.gem(`Equipping Gems: ${gem__1} ${gem__3} ${gem__4} ${star__}`);
-    } else {
-      logger.gem("No valid gems found to equip.");
-    }
-  });
+  channel.send(`owo equip ${gem__1} ${gem__3} ${gem__4} ${star__}`);
+  logger.gem(`Equipping Gems: ${gem__1} ${gem__3} ${gem__4} ${star__}`);
 }
