@@ -1,4 +1,4 @@
-import * as colors from "ansi-colors";
+import colors from "ansi-colors"; //try "chalk"
 
 interface LogFunction {
   (message: string): void;
@@ -40,7 +40,7 @@ function renderLogs(): void {
     console.log(logText);
   });
 }
-
+// this is a lot of logging types (ngl)
 function initLogger(): void {
   log(colors.green("Logger initialized."));
 }

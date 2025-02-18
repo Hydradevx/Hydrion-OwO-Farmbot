@@ -15,7 +15,7 @@ const textArt = `
 
 console.log(textArt);
 
-const rl = readline.createInterface({
+const rl = readline.createInterface({ // use only one (readline or inquirer), don't use both
   input: process.stdin,
   output: process.stdout,
 });

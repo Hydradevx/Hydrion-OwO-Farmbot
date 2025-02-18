@@ -1,9 +1,11 @@
-const axios = require("axios");
-import logger from "../utils/logger";
-import inquirer from "inquirer";
-const { spawn } = require("child_process");
+import { spawn } from "child_process";
 import fs from "fs";
 import path from "path";
+
+import inquirer from "inquirer"; // inquirer is quite heavy and no longer supported commonjs, try ES6 import and newer version for better performance
+import axios from "axios";
+
+import logger from "../utils/logger.js";
 
 export default async function update() {
   try {

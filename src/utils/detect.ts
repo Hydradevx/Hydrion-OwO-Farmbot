@@ -1,11 +1,16 @@
-import { client } from "../structures/client";
-import info from "../structures/info";
-import logger from "../utils/logger";
 import fs from "fs";
 import path from "path";
+
+import { Message } from "discord.js-selfbot-v13";
+
+import { client } from "../structures/client.js";
+import info from "../structures/info.js";
+import logger from "../utils/logger.js";
+import { sell } from "../funcs/gamble.js";
+
+
 const configPath = path.join(__dirname, "../../config.json");
 const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
-import { sell } from "../funcs/gamble";
 
 const detectCaptcha = (msg: string, check1: boolean, check2: boolean) => {
   const captchawords = [".com", "link", "please use the link"];
@@ -20,7 +25,7 @@ const removeInvis = (input: string) => {
   return input.replace(invisibleChar, "");
 };
 
-export default async function detect(message: any) {
+export default async function detect(message: Message) {
   if (
     message.author.id === "408785106942164992" &&
     message.channel.id === client.config.channel
@@ -44,12 +49,13 @@ export default async function detect(message: any) {
         message.components.length > 0 &&
         message.components[0].components[0]
       ) {
-        let check1 = message.components[0].components.find(
-          (button: any) => button.url.toLowerCase() === "owobot.com",
-        );
-        let check2 = message.components[0].components[0].url
-          .toLowerCase()
-          .includes("owobot.com");
+        const component = message.components[0].components[0];
+        if(component.type !== "BUTTON") return;
+
+        let check1 = message.content.includes("owobot.com");
+        let check2 = component.url
+          ?.toLowerCase()
+          ?.includes("owobot.com") ?? false;
 
         if (detectCaptcha(msg, check1, check2) === true) {
           logger.status("captcha detected");

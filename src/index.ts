@@ -1,11 +1,13 @@
-import { startFarm } from "./structures/farmbot";
-import { cl_start, client } from "./structures/client";
-import { Collection } from "discord.js-selfbot-v13";
 import fs from "fs";
 import path from "path";
-import update from "./utils/updater";
-import antiCrash from "./utils/antiCrash";
-import logger from "./utils/logger";
+
+import { Collection } from "discord.js-selfbot-v13";
+
+import { startFarm } from "./structures/farmbot.js";
+import { cl_start, client } from "./structures/client.js";
+import update from "./utils/updater.js";
+import antiCrash from "./utils/antiCrash.js";
+import logger from "./utils/logger.js";
 
 const configPath = path.join(__dirname, "../config.json");
 const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
@@ -61,7 +63,7 @@ client.on("messageCreate", (message: any) => {
   if (
     message.author.bot ||
     !message.content.startsWith(prefix) ||
-    message.author.id !== client.user.id
+    message.author.id !== client.user?.id
   )
     return;
 

@@ -1,8 +1,8 @@
-import logger from "./logger";
+import logger from "./logger.js";
 
 export default function antiCrash(): void {
-  process.on("uncaughtException", (error: Error) => {
-    console.log("Uncaught Exception:", error.stack || error);
+  process.on("uncaughtException", (error: Error) => { // this operation is not recommended
+    console.log("Uncaught Exception:", error.stack || error); // https://stackoverflow.com/a/50202669
   });
 
   process.on("unhandledRejection", (reason: unknown, promise: Promise<any>) => {

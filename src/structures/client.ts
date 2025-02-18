@@ -1,15 +1,17 @@
+import fs from "fs";
+import path from "path";
+
 import { Client } from "discord.js-selfbot-v13";
-import logger from "../utils/logger";
-import * as fs from "fs";
-import * as path from "path";
-import { rpc } from "../utils/rpc";
+
+import logger from "../utils/logger.js";
+import { rpc } from "../utils/rpc.js";
 
 interface Config {
   token: string;
 }
 
 let configPath = path.join(__dirname, "../../config.json");
-let config: Config;
+let config: Config; // make it a part of class, or export to global scope, or at least define "as" every time you call readFileSync
 
 if (fs.existsSync(configPath)) {
   const configFile = fs.readFileSync(configPath, "utf-8");
@@ -19,7 +21,7 @@ if (fs.existsSync(configPath)) {
   process.exit();
 }
 
-export const client: any = new Client();
+export const client: any = new Client(); // convert it to a "class extends Client"
 
 client.on("ready", async () => {
   if (client.user) {

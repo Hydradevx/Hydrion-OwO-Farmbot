@@ -1,7 +1,10 @@
-import logger from "../utils/logger";
-import { client } from "../structures/client";
-import * as fs from "fs";
-import * as path from "path";
+import fs from "fs";
+import path from "path";
+
+import { Message, TextChannel } from "discord.js-selfbot-v13";
+
+import logger from "../utils/logger.js";
+import { client } from "../structures/client.js";
 
 let gem_1 = true;
 let gem_3 = true;
@@ -13,10 +16,10 @@ export async function filtergem(m: any) {
   let g3 = true;
   let g4 = true;
   let s = true;
-  if (!gem1.some((gem) => m.content.includes(gem)) && gem_1) {
+  if (!gem1.some((gem) => m.content.includes(gem)) && gem_1) { // if(!m.content.includes("gem1"))
     g1 = false;
   }
-  if (!gem3.some((gem) => m.content.includes(gem)) && gem_3) {
+  if (!gem3.some((gem) => m.content.includes(gem)) && gem_3) { // same things
     g3 = false;
   }
   if (!gem4.some((gem) => m.content.includes(gem)) && gem_4) {
@@ -57,7 +60,7 @@ let gem4 = [
   "<a:fgem4:510366765340033025>",
 ];
 
-let star = [
+let star = [ // you just need to check if gem1/gem3/gem4/star is in the message, after hunt command is sent
   "<:cstar:1101731000721096744>",
   "<:ustar:1101731011236220998>",
   "<:rstar:1101731009684328479>",
@@ -68,74 +71,88 @@ let star = [
 ];
 
 async function equip(g1: boolean, g3: boolean, g4: boolean, s: boolean) {
-  const configPath = path.join(__dirname, "../../config.json");
-  const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+  const configPath = path.join(__dirname, "../../config.json"); // consider creating a typing.ts
+  const config = JSON.parse(fs.readFileSync(configPath, "utf-8")); // give this a type
   if (!config.inventory) return;
 
   const constsPath = path.join(__dirname, "../../consts.json");
   const consts = JSON.parse(fs.readFileSync(constsPath, "utf-8"));
   const channelId = consts.channelId;
-  const channel = client.channels.cache.get(channelId);
+  const channel = client.channels.cache.get(channelId) as TextChannel;
 
-  const inv_msg = await channel.send("owo inv");
-  const id = inv_msg.id;
+  // const inv_msg = channel.send("owo inv");
+  // const id = inv_msg.id;
+  channel.send("owo inv");
+
   logger.gem(`Checking your inventory`);
 
-  const message = await getMessage(id);
-
-  async function getMessage(messageId: string): Promise<any> {
-    return new Promise((resolve) => {
-      const filter = (msg: any) =>
-        msg.content.includes("Inventory =") &&
-        msg.author.id === "408785106942164992" &&
-        msg.channel.id === channel.id &&
-        msg.id.localeCompare(messageId) > 0;
-
-      const listener = (msg: any) => {
-        if (filter(msg)) {
-          clearTimeout(timer);
-          client.off("messageCreate", listener);
-          resolve(msg);
-        }
-      };
-
-      const timer = setTimeout(() => {
-        client.off("messageCreate", listener);
-        resolve(null);
-      }, 6100);
-
-      client.on("messageCreate", listener);
-
-      const collector = channel.createMessageCollector({
-        filter,
-        time: 6100,
-      });
-
-      collector.on("collect", (msg: any) => {
-        if (filter(msg)) {
-          collector.stop();
-          resolve(msg);
-        }
-      });
-
-      collector.on("end", () => resolve(null));
+  const message = await new Promise<Message | undefined>((resolve) => {
+    channel.createMessageCollector({
+      filter: m => m.author.id === "408785106942164992" 
+      && m.content.includes(m.guild?.members.me?.displayName!)
+      && m.content.includes("Inventory"),
+      time: 10000, max: 1
+    }).once("collect", resolve)
+    .once("end", col => {
+      if (col.size === 0) resolve(undefined);
     });
-  }
-  let inventory = message.content;
+  })
 
-  if (inventory === null) {
-    equip(g1, g3, g4, s);
+  // const message = await getMessage(id);
+
+  // function getMessage(messageId: string): Promise<any> {
+  //   return new Promise((resolve) => {
+  //     const filter = (msg: Message) =>
+  //       msg.author.id === "408785106942164992" &&
+  //     msg.channel.id === channel.id &&
+  //       msg.content.includes("Inventory") &&
+  //       msg.id.localeCompare(messageId) > 0;
+
+  //     const listener = (msg: Message) => {
+  //       if (filter(msg)) {
+  //         clearTimeout(timer);
+  //         client.off("messageCreate", listener);
+  //         resolve(msg);
+  //       }
+  //     };
+
+  //     const timer = setTimeout(() => {
+  //       client.off("messageCreate", listener);
+  //       resolve(null);
+  //     }, 6100);
+
+  //     client.on("messageCreate", listener);
+
+  //     const collector = channel.createMessageCollector({
+  //       filter,
+  //       time: 6100,
+  //     });
+
+  //     collector.on("collect", (msg: any) => {
+  //       if (filter(msg)) {
+  //         collector.stop();
+  //         resolve(msg);
+  //       }
+  //     });
+
+  //     collector.on("end", () => resolve(null));
+  //   });
+  // }
+  let inventory = message?.content;
+
+  if (!inventory) {
+    equip(g1, g3, g4, s); // this can cause infinite loop
     return;
   }
 
   let gems = [];
   let regex = /`([^`]+)`/g;
   let match;
-  while ((match = regex.exec(inventory)) !== null) {
+  while ((match = regex.exec(inventory)) !== null) { //while with regex is not recommended (heavy operation)
     gems.push(match[1]);
   }
 
-  await new Promise((resolve) => setTimeout(resolve, 12000));
+  await new Promise((resolve) => setTimeout(resolve, 12000)); // try client.sleep (it works the same)
 
   if (gems.includes("50")) {
     channel.send("owo lb all");
