@@ -1,8 +1,8 @@
-import * as fs from "fs";
-import * as path from "path";
-import logger from "../utils/logger";
-import info from "../structures/info";
-import { filtergem } from "./inventory";
+import fs from "fs";
+import path from "path";
+import logger from "../utils/logger.js";
+import info from "../structures/info.js";
+import { filtergem } from "./inventory.js";
 
 async function execute(client: any) {
   const configPath = path.join(__dirname, "../../config.json");

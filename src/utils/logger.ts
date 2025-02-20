@@ -1,4 +1,6 @@
-import * as colors from "ansi-colors";
+import colors from "ansi-colors";
+import fs from "fs";
+import path from "path";
 
 interface LogFunction {
   (message: string): void;
@@ -7,7 +9,8 @@ interface LogFunction {
 let logs: string[] = [];
 const maxLogs = process.stdout.rows - 10;
 
-const Json = require("../../package.json");
+const configPath = path.join(__dirname, "../../config.json");
+const Json = JSON.parse(fs.readFileSync(configPath, "utf8"));
 
 const log: LogFunction = (message: string) => {
   logs.push(message);

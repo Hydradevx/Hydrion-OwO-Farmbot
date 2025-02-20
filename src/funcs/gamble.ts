@@ -1,7 +1,7 @@
-import * as fs from "fs";
-import * as path from "path";
-import logger from "../utils/logger";
-import info from "../structures/info";
+import fs from "fs";
+import path from "path";
+import logger from "../utils/logger.js";
+import info from "../structures/info.js";
 
 const configPath = path.join(__dirname, "../../config.json");
 const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));

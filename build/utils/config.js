@@ -1,41 +1,31 @@
-"use strict";
-var __importDefault =
-  (this && this.__importDefault) ||
-  function (mod) {
-    return mod && mod.__esModule ? mod : { default: mod };
-  };
-Object.defineProperty(exports, "__esModule", { value: true });
-const fs_1 = __importDefault(require("fs"));
-const path_1 = __importDefault(require("path"));
-const readline_1 = __importDefault(require("readline"));
-const ansi_colors_1 = __importDefault(require("ansi-colors"));
+import fs from "fs";
+import path from "path";
+import readline from "readline";
+import colors from "ansi-colors";
 const textArt = `
-    ${ansi_colors_1.default.cyanBright("██╗░░██╗██╗░░░██╗██████╗░██████╗░██╗░█████╗░███╗░░██╗")}
-    ${ansi_colors_1.default.cyanBright("██║░░██║╚██╗░██╔╝██╔══██╗██╔══██╗██║██╔══██╗████╗░██║")}
-    ${ansi_colors_1.default.cyanBright("███████║░╚████╔╝░██║░░██║██████╔╝██║██║░░██║██╔██╗██║")}
-    ${ansi_colors_1.default.cyanBright("██╔══██║░░╚██╔╝░░██║░░██║██╔══██╗██║██║░░██║██║╚████║")}
-    ${ansi_colors_1.default.cyanBright("██║░░██║░░░██║░░░██████╔╝██║░░██║██║╚█████╔╝██║░╚███║")}
-    ${ansi_colors_1.default.cyanBright("╚═╝░░╚═╝░░░╚═╝░░░╚═════╝░╚═╝░░╚═╝╚═╝░╚════╝░╚═╝░░╚══╝")}
-    ${ansi_colors_1.default.cyanBright("OwO FarmBot Configurator")}
+    ${colors.cyanBright("██╗░░██╗██╗░░░██╗██████╗░██████╗░██╗░█████╗░███╗░░██╗")}
+    ${colors.cyanBright("██║░░██║╚██╗░██╔╝██╔══██╗██╔══██╗██║██╔══██╗████╗░██║")}
+    ${colors.cyanBright("███████║░╚████╔╝░██║░░██║██████╔╝██║██║░░██║██╔██╗██║")}
+    ${colors.cyanBright("██╔══██║░░╚██╔╝░░██║░░██║██╔══██╗██║██║░░██║██║╚████║")}
+    ${colors.cyanBright("██║░░██║░░░██║░░░██████╔╝██║░░██║██║╚█████╔╝██║░╚███║")}
+    ${colors.cyanBright("╚═╝░░╚═╝░░░╚═╝░░░╚═════╝░╚═╝░░╚═╝╚═╝░╚════╝░╚═╝░░╚══╝")}
+    ${colors.cyanBright("OwO FarmBot Configurator")}
 `;
 console.log(textArt);
-const rl = readline_1.default.createInterface({
+const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 const askQuestion = (question) => {
   return new Promise((resolve) => {
-    rl.question(
-      ansi_colors_1.default.yellow(question + " (y/n): "),
-      (answer) => {
-        resolve(answer.trim().toLowerCase().startsWith("y"));
-      },
-    );
+    rl.question(colors.yellow(question + " (y/n): "), (answer) => {
+      resolve(answer.trim().toLowerCase().startsWith("y"));
+    });
   });
 };
 const askInput = (question) => {
   return new Promise((resolve) => {
-    rl.question(ansi_colors_1.default.cyan(question + ": "), (answer) => {
+    rl.question(colors.cyan(question + ": "), (answer) => {
       resolve(answer.trim());
     });
   });
@@ -43,7 +33,7 @@ const askInput = (question) => {
 const askTrait = () => {
   return new Promise((resolve) => {
     rl.question(
-      ansi_colors_1.default.yellow(
+      colors.yellow(
         "Choose a trait (efficiency, gain, radar, duration, experience, cost): ",
       ),
       (answer) => {
@@ -58,11 +48,7 @@ const askTrait = () => {
         if (validTraits.includes(answer.toLowerCase())) {
           resolve(answer.toLowerCase());
         } else {
-          console.log(
-            ansi_colors_1.default.red(
-              "Invalid choice. Defaulting to efficiency.",
-            ),
-          );
+          console.log(colors.red("Invalid choice. Defaulting to efficiency."));
           resolve("efficiency");
         }
       },
@@ -83,13 +69,9 @@ async function configure() {
     inventory: await askQuestion("Enable inventory management?"),
     luck: await askQuestion("Enable Auto Luck points?"),
   };
-  const configPath = path_1.default.join(__dirname, "../../config.json");
-  fs_1.default.writeFileSync(
-    configPath,
-    JSON.stringify(config, null, 2),
-    "utf-8",
-  );
-  console.log(ansi_colors_1.default.green("Configuration saved successfully!"));
+  const configPath = path.join(__dirname, "../../config.json");
+  fs.writeFileSync(configPath, JSON.stringify(config, null, 2), "utf-8");
+  console.log(colors.green("Configuration saved successfully!"));
   rl.close();
 }
 configure();

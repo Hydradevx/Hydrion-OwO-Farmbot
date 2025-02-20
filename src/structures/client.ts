@@ -1,8 +1,8 @@
 import { Client } from "discord.js-selfbot-v13";
-import logger from "../utils/logger";
-import * as fs from "fs";
-import * as path from "path";
-import { rpc } from "../utils/rpc";
+import logger from "../utils/logger.js";
+import fs from "fs";
+import path from "path";
+import { rpc } from "../utils/rpc.js";
 
 interface Config {
   token: string;

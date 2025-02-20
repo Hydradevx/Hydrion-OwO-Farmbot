@@ -1,11 +1,11 @@
-import { client } from "../structures/client";
-import info from "../structures/info";
-import logger from "../utils/logger";
+import { client } from "../structures/client.js";
+import info from "../structures/info.js";
+import logger from "../utils/logger.js";
 import fs from "fs";
 import path from "path";
 const configPath = path.join(__dirname, "../../config.json");
 const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
-import { sell } from "../funcs/gamble";
+import { sell } from "../funcs/gamble.js";
 
 const detectCaptcha = (msg: string, check1: boolean, check2: boolean) => {
   const captchawords = [".com", "link", "please use the link"];
@@ -21,10 +21,7 @@ const removeInvis = (input: string) => {
 };
 
 export default async function detect(message: any) {
-  if (
-    message.author.id === "408785106942164992" &&
-    message.channel.id === client.config.channel
-  ) {
+  if (message.author.id === "408785106942164992") {
     let msg = removeInvis(message.content.toLowerCase());
 
     if (

@@ -1,5 +1,5 @@
 const axios = require("axios");
-import logger from "../utils/logger";
+import logger from "../utils/logger.js";
 import inquirer from "inquirer";
 const { spawn } = require("child_process");
 import fs from "fs";

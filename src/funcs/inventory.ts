@@ -1,7 +1,7 @@
-import logger from "../utils/logger";
-import { client } from "../structures/client";
-import * as fs from "fs";
-import * as path from "path";
+import logger from "../utils/logger.js";
+import { client } from "../structures/client.js";
+import fs from "fs";
+import path from "path";
 
 let gem_1 = true;
 let gem_3 = true;
@@ -77,11 +77,31 @@ async function equip(g1: boolean, g3: boolean, g4: boolean, s: boolean) {
   const channelId = consts.channelId;
   const channel = client.channels.cache.get(channelId);
 
-  const inv_msg = await channel.send("owo inv");
-  const id = inv_msg.id;
+  await channel.send("owo inv");
   logger.gem(`Checking your inventory`);
 
-  const message = await getMessage(id);
+  const message = await new Promise<any>((resolve) => {
+    const collector = channel.createMessageCollector({
+      filter: (m: any) =>
+        m.author.id === "408785106942164992" &&
+        m.content.includes(m.guild?.members.me?.displayName!) &&
+        m.content.includes("Inventory"),
+      time: 10000,
+      max: 1,
+    });
+
+    collector.once("collect", (m: any) => resolve(m));
+    collector.once("end", (col: any) => {
+      if (col.size === 0) resolve(undefined);
+    });
+  });
+
+  if (!message) {
+    equip(g1, g3, g4, s);
+    return;
+  }
+
+  const inventory = message.content;
 
   async function getMessage(messageId: string): Promise<any> {
     return new Promise((resolve) => {
@@ -121,12 +141,6 @@ async function equip(g1: boolean, g3: boolean, g4: boolean, s: boolean) {
       collector.on("end", () => resolve(null));
     });
   }
-  let inventory = message.content;
-
-  if (inventory === null) {
-    equip(g1, g3, g4, s);
-    return;
-  }
 
   let gems = [];
   let regex = /`([^`]+)`/g;
@@ -135,7 +149,7 @@ async function equip(g1: boolean, g3: boolean, g4: boolean, s: boolean) {
     gems.push(match[1]);
   }
 
-  await new Promise((resolve) => setTimeout(resolve, 12000));
+  client.sleep(5000);
 
   if (gems.includes("50")) {
     channel.send("owo lb all");

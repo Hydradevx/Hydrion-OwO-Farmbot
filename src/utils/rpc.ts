@@ -1,5 +1,5 @@
 import { RichPresence } from "discord.js-selfbot-v13";
-import logger from "./logger";
+import logger from "./logger.js";
 
 export function rpc(client: any) {
   if (!client || !client.user) {

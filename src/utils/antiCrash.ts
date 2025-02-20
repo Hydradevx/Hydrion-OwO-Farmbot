@@ -1,4 +1,4 @@
-import logger from "./logger";
+import logger from "./logger.js";
 
 export default function antiCrash(): void {
   process.on("uncaughtException", (error: Error) => {

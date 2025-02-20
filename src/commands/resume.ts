@@ -1,5 +1,5 @@
-import info from "../structures/info";
-import logger from "../utils/logger";
+import info from "../structures/info.js";
+import logger from "../utils/logger.js";
 
 module.exports = {
   name: "resume",
