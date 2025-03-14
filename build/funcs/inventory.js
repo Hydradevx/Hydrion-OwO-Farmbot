@@ -79,7 +79,7 @@ let star = [
 async function execute() {
   setInterval(() => {
     equip(g1, g3, g4, s);
-  }, 10000);
+  }, 100000);
 }
 async function equip(g1, g3, g4, s) {
   const configPath = path_1.default.join(__dirname, "../../config.json");

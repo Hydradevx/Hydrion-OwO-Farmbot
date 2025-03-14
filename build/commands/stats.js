@@ -6,22 +6,22 @@ var __importDefault =
   };
 Object.defineProperty(exports, "__esModule", { value: true });
 const logger_js_1 = __importDefault(require("../utils/logger.js"));
+const info_js_1 = __importDefault(require("../structures/info.js"));
 module.exports = {
-  name: "help",
-  aliases: ["h"],
+  name: "stats",
+  aliases: ["s"],
   execute(message, prefix) {
-    message.channel.send(`
-> ✨ **${prefix}[section] [page] ? Default is 1** ✨
+    const stats = `
+> 📊 **Statistics**
 > 
-> ✨ **${prefix}resume** - Resume the bot.
-> 🛑 **${prefix}pause** - Pause the bot.
-> 💀 **${prefix}kill** - Kill the bot process.
-> ❓ **${prefix}help** - Show this help message.
-> 📊 **${prefix}stats** - Shows the bot stats.
+> 🔄 **Paused:** ${info_js_1.default.paused ? "Yes" : "No"}
+> 🧩 **Captcha Required:** ${info_js_1.default.captcha ? "Yes" : "No"}
+> 🔢 **Total Captchas Solved:** ${info_js_1.default.totalcaptcha}
 > 
 > ✨ Selfbot crafted by \`@hydradevx\`
-    `);
-    logger_js_1.default.cmd("Help Command has been executed");
+    `;
+    message.channel.send(stats);
+    logger_js_1.default.cmd("Stats Command has been executed");
     if (message.author.id === message.client.user.id) {
       message.delete().catch(() => {});
     }

@@ -9,8 +9,8 @@ interface LogFunction {
 let logs: string[] = [];
 const maxLogs = process.stdout.rows - 10;
 
-const configPath = path.join(__dirname, "../../config.json");
-const Json = JSON.parse(fs.readFileSync(configPath, "utf8"));
+const PackagePath = path.join(__dirname, "../../package.json");
+const Json = JSON.parse(fs.readFileSync(PackagePath, "utf8"));
 
 const log: LogFunction = (message: string) => {
   logs.push(message);

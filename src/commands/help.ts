@@ -7,14 +7,14 @@ module.exports = {
     message.channel.send(
       `
 > ✨ **${prefix}[section] [page] ? Default is 1** ✨
->
+> 
 > ✨ **${prefix}resume** - Resume the bot.
 > 🛑 **${prefix}pause** - Pause the bot.
 > 💀 **${prefix}kill** - Kill the bot process.
 > ❓ **${prefix}help** - Show this help message.
-
-✨ Add --info or --usage after a command to get more information about it.
-✨ Selfbot crafted by \`@hydradevx\`
+> 📊 **${prefix}stats** - Shows the bot stats.
+> 
+> ✨ Selfbot crafted by \`@hydradevx\`
     `,
     );
 

@@ -10,8 +10,8 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 let logs = [];
 const maxLogs = process.stdout.rows - 10;
-const configPath = path_1.default.join(__dirname, "../../config.json");
-const Json = JSON.parse(fs_1.default.readFileSync(configPath, "utf8"));
+const PackagePath = path_1.default.join(__dirname, "../../package.json");
+const Json = JSON.parse(fs_1.default.readFileSync(PackagePath, "utf8"));
 const log = (message) => {
   logs.push(message);
   console.log(message);
