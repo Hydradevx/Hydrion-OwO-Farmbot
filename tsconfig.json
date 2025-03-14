@@ -1,13 +1,11 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "NodeNext",
-    "types": ["node"],
+    "target": "ES2021",
+    "module": "CommonJS",
     "outDir": "build",
     "rootDir": "src",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true
-  },
-  "exclude": ["node_modules"]
+  }
 }

@@ -8,24 +8,35 @@ let gem_3 = true;
 let gem_4 = true;
 let star_ = true;
 
+let g1 = false;
+let g3 = false;
+let g4 = false;
+let s = false;
+
 export async function filtergem(m: any) {
-  let g1 = true;
-  let g3 = true;
-  let g4 = true;
-  let s = true;
   if (!gem1.some((gem) => m.content.includes(gem)) && gem_1) {
     g1 = false;
+  } else {
+    g1 = true;
   }
+
   if (!gem3.some((gem) => m.content.includes(gem)) && gem_3) {
     g3 = false;
+  } else {
+    g3 = true;
   }
+
   if (!gem4.some((gem) => m.content.includes(gem)) && gem_4) {
     g4 = false;
+  } else {
+    g4 = true;
   }
+
   if (!star.some((gem) => m.content.includes(gem)) && star_) {
     s = false;
+  } else {
+    s = true;
   }
-  equip(g1, g3, g4, s);
 }
 
 let gem1 = [
@@ -67,6 +78,12 @@ let star = [
   "<a:fstar:1101735557001908274>",
 ];
 
+export async function execute() {
+  setInterval(() => {
+    equip(g1, g3, g4, s);
+  }, 100000);
+}
+
 async function equip(g1: boolean, g3: boolean, g4: boolean, s: boolean) {
   const configPath = path.join(__dirname, "../../config.json");
   const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
@@ -77,20 +94,24 @@ async function equip(g1: boolean, g3: boolean, g4: boolean, s: boolean) {
   const channelId = consts.channelId;
   const channel = client.channels.cache.get(channelId);
 
+  if (!g1 && !g3 && !g4 && !s) {
+    return;
+  }
+
   await channel.send("owo inv");
   logger.gem(`Checking your inventory`);
 
   const message = await new Promise<any>((resolve) => {
     const collector = channel.createMessageCollector({
-      filter: (m: any) =>
-        m.author.id === "408785106942164992" &&
-        m.content.includes(m.guild?.members.me?.displayName!) &&
-        m.content.includes("Inventory"),
+      filter: (msg: any) =>
+        msg.author.id === "408785106942164992" &&
+        msg.content.includes(msg.guild?.members.me?.displayName!) &&
+        msg.content.includes("Inventory"),
       time: 10000,
       max: 1,
     });
 
-    collector.once("collect", (m: any) => resolve(m));
+    collector.once("collect", (msg: any) => resolve(msg));
     collector.once("end", (col: any) => {
       if (col.size === 0) resolve(undefined);
     });
@@ -176,6 +197,7 @@ async function equip(g1: boolean, g3: boolean, g4: boolean, s: boolean) {
       .map(String);
 
   if (g1) {
+    g1 = false;
     const gem1Range = parseGemNumbers(gems, 51, 57);
     if (gem1Range.length) {
       gem__1 = config.lowest
@@ -185,6 +207,7 @@ async function equip(g1: boolean, g3: boolean, g4: boolean, s: boolean) {
   }
 
   if (g3) {
+    g3 = false;
     const gem3Range = parseGemNumbers(gems, 65, 71);
     if (gem3Range.length) {
       gem__3 = config.lowest
@@ -194,6 +217,7 @@ async function equip(g1: boolean, g3: boolean, g4: boolean, s: boolean) {
   }
 
   if (g4) {
+    g4 = false;
     const gem4Range = parseGemNumbers(gems, 72, 78);
     if (gem4Range.length) {
       gem__4 = config.lowest
@@ -203,6 +227,7 @@ async function equip(g1: boolean, g3: boolean, g4: boolean, s: boolean) {
   }
 
   if (s) {
+    s = false;
     const starRange = parseGemNumbers(gems, 79, 85);
     if (starRange.length) {
       star__ = config.lowest
@@ -211,6 +236,9 @@ async function equip(g1: boolean, g3: boolean, g4: boolean, s: boolean) {
     }
   }
 
-  channel.send(`owo equip ${gem__1} ${gem__3} ${gem__4} ${star__}`);
-  logger.gem(`Equipping Gems: ${gem__1} ${gem__3} ${gem__4} ${star__}`);
+  const gemsToEquip = [gem__1, gem__3, gem__4, star__].filter(
+    (gem) => gem !== "0",
+  );
+  channel.send(`owo equip ${gemsToEquip.join(" ")}`);
+  logger.gem(`Equipping Gems: ${gemsToEquip.join(" ")}`);
 }

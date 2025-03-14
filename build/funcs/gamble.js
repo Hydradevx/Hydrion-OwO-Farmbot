@@ -1,26 +1,36 @@
-import fs from "fs";
-import path from "path";
-import logger from "../utils/logger.js";
-import info from "../structures/info.js";
-const configPath = path.join(__dirname, "../../config.json");
-const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
-const constsPath = path.join(__dirname, "../../consts.json");
-const consts = JSON.parse(fs.readFileSync(constsPath, "utf-8"));
+"use strict";
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : { default: mod };
+  };
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.sell = sell;
+const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
+const logger_js_1 = __importDefault(require("../utils/logger.js"));
+const info_js_1 = __importDefault(require("../structures/info.js"));
+const configPath = path_1.default.join(__dirname, "../../config.json");
+const config = JSON.parse(fs_1.default.readFileSync(configPath, "utf-8"));
+const constsPath = path_1.default.join(__dirname, "../../consts.json");
+const consts = JSON.parse(fs_1.default.readFileSync(constsPath, "utf-8"));
 const channelId = consts.channelId;
 async function execute(client) {
   const channel = client.channels.cache.get(channelId);
   if (!config.gamble) return;
   if (channel?.isText()) {
     setInterval(() => {
-      if (!info.getPaused() && !info.getCaptcha()) {
+      if (!info_js_1.default.getPaused() && !info_js_1.default.getCaptcha()) {
         const method = getMethod();
         if (method === "slots") {
           channel.send(`owo slots ${consts.gamble.s_bet}`);
-          logger.gamble(`Slots Command Executed`);
+          logger_js_1.default.gamble(`Slots Command Executed`);
         } else {
           const side = getHeadsOrTails();
           channel.send(`owo coinflip ${side} ${consts.gamble.cf_bet}`);
-          logger.gamble(`Coinflip Command Executed with Side: ${side}`);
+          logger_js_1.default.gamble(
+            `Coinflip Command Executed with Side: ${side}`,
+          );
         }
       }
     }, consts.gambleInterval);
@@ -40,7 +50,7 @@ function getHeadsOrTails() {
   }
   return "tails";
 }
-export function sell(client) {
+function sell(client) {
   const channel = client.channels.cache.get(channelId);
   channel.send("owo sell all");
 }

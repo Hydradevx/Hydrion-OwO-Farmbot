@@ -1,29 +1,45 @@
-import logger from "../utils/logger.js";
-import { client } from "../structures/client.js";
-import fs from "fs";
-import path from "path";
+"use strict";
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : { default: mod };
+  };
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.filtergem = filtergem;
+exports.execute = execute;
+const logger_js_1 = __importDefault(require("../utils/logger.js"));
+const client_js_1 = require("../structures/client.js");
+const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
 let gem_1 = true;
 let gem_3 = true;
 let gem_4 = true;
 let star_ = true;
-export async function filtergem(m) {
-  let g1 = true;
-  let g3 = true;
-  let g4 = true;
-  let s = true;
+let g1 = false;
+let g3 = false;
+let g4 = false;
+let s = false;
+async function filtergem(m) {
   if (!gem1.some((gem) => m.content.includes(gem)) && gem_1) {
     g1 = false;
+  } else {
+    g1 = true;
   }
   if (!gem3.some((gem) => m.content.includes(gem)) && gem_3) {
     g3 = false;
+  } else {
+    g3 = true;
   }
   if (!gem4.some((gem) => m.content.includes(gem)) && gem_4) {
     g4 = false;
+  } else {
+    g4 = true;
   }
   if (!star.some((gem) => m.content.includes(gem)) && star_) {
     s = false;
+  } else {
+    s = true;
   }
-  equip(g1, g3, g4, s);
 }
 let gem1 = [
   "<:cgem1:492572122120585240>",
@@ -60,26 +76,34 @@ let star = [
   "<a:lstar:1101731005473230880>",
   "<a:fstar:1101735557001908274>",
 ];
+async function execute() {
+  setInterval(() => {
+    equip(g1, g3, g4, s);
+  }, 10000);
+}
 async function equip(g1, g3, g4, s) {
-  const configPath = path.join(__dirname, "../../config.json");
-  const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+  const configPath = path_1.default.join(__dirname, "../../config.json");
+  const config = JSON.parse(fs_1.default.readFileSync(configPath, "utf-8"));
   if (!config.inventory) return;
-  const constsPath = path.join(__dirname, "../../consts.json");
-  const consts = JSON.parse(fs.readFileSync(constsPath, "utf-8"));
+  const constsPath = path_1.default.join(__dirname, "../../consts.json");
+  const consts = JSON.parse(fs_1.default.readFileSync(constsPath, "utf-8"));
   const channelId = consts.channelId;
-  const channel = client.channels.cache.get(channelId);
+  const channel = client_js_1.client.channels.cache.get(channelId);
+  if (!g1 && !g3 && !g4 && !s) {
+    return;
+  }
   await channel.send("owo inv");
-  logger.gem(`Checking your inventory`);
+  logger_js_1.default.gem(`Checking your inventory`);
   const message = await new Promise((resolve) => {
     const collector = channel.createMessageCollector({
-      filter: (m) =>
-        m.author.id === "408785106942164992" &&
-        m.content.includes(m.guild?.members.me?.displayName) &&
-        m.content.includes("Inventory"),
+      filter: (msg) =>
+        msg.author.id === "408785106942164992" &&
+        msg.content.includes(msg.guild?.members.me?.displayName) &&
+        msg.content.includes("Inventory"),
       time: 10000,
       max: 1,
     });
-    collector.once("collect", (m) => resolve(m));
+    collector.once("collect", (msg) => resolve(msg));
     collector.once("end", (col) => {
       if (col.size === 0) resolve(undefined);
     });
@@ -99,15 +123,15 @@ async function equip(g1, g3, g4, s) {
       const listener = (msg) => {
         if (filter(msg)) {
           clearTimeout(timer);
-          client.off("messageCreate", listener);
+          client_js_1.client.off("messageCreate", listener);
           resolve(msg);
         }
       };
       const timer = setTimeout(() => {
-        client.off("messageCreate", listener);
+        client_js_1.client.off("messageCreate", listener);
         resolve(null);
       }, 6100);
-      client.on("messageCreate", listener);
+      client_js_1.client.on("messageCreate", listener);
       const collector = channel.createMessageCollector({
         filter,
         time: 6100,
@@ -127,16 +151,16 @@ async function equip(g1, g3, g4, s) {
   while ((match = regex.exec(inventory)) !== null) {
     gems.push(match[1]);
   }
-  client.sleep(5000);
+  client_js_1.client.sleep(5000);
   if (gems.includes("50")) {
     channel.send("owo lb all");
-    logger.gem("Opening loot boxes");
+    logger_js_1.default.gem("Opening loot boxes");
     equip(g1, g3, g4, s);
     return;
   }
   if (gems.includes("100")) {
     channel.send("owo crate all");
-    logger.gem("Opening Crates");
+    logger_js_1.default.gem("Opening Crates");
     equip(g1, g3, g4, s);
     return;
   }
@@ -150,6 +174,7 @@ async function equip(g1, g3, g4, s) {
       .filter((gem) => gem >= min && gem <= max)
       .map(String);
   if (g1) {
+    g1 = false;
     const gem1Range = parseGemNumbers(gems, 51, 57);
     if (gem1Range.length) {
       gem__1 = config.lowest
@@ -158,6 +183,7 @@ async function equip(g1, g3, g4, s) {
     }
   }
   if (g3) {
+    g3 = false;
     const gem3Range = parseGemNumbers(gems, 65, 71);
     if (gem3Range.length) {
       gem__3 = config.lowest
@@ -166,6 +192,7 @@ async function equip(g1, g3, g4, s) {
     }
   }
   if (g4) {
+    g4 = false;
     const gem4Range = parseGemNumbers(gems, 72, 78);
     if (gem4Range.length) {
       gem__4 = config.lowest
@@ -174,6 +201,7 @@ async function equip(g1, g3, g4, s) {
     }
   }
   if (s) {
+    s = false;
     const starRange = parseGemNumbers(gems, 79, 85);
     if (starRange.length) {
       star__ = config.lowest
@@ -181,6 +209,9 @@ async function equip(g1, g3, g4, s) {
         : Math.max(...starRange.map(Number)).toString();
     }
   }
-  channel.send(`owo equip ${gem__1} ${gem__3} ${gem__4} ${star__}`);
-  logger.gem(`Equipping Gems: ${gem__1} ${gem__3} ${gem__4} ${star__}`);
+  const gemsToEquip = [gem__1, gem__3, gem__4, star__].filter(
+    (gem) => gem !== "0",
+  );
+  channel.send(`owo equip ${gemsToEquip.join(" ")}`);
+  logger_js_1.default.gem(`Equipping Gems: ${gemsToEquip.join(" ")}`);
 }
