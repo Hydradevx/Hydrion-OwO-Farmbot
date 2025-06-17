@@ -21,7 +21,7 @@
   "author": "Hydra_DevX",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^22.13.1",
+    "@types/node": "^24.0.3",
     "@typescript-eslint/eslint-plugin": "^8.23.0",
     "@typescript-eslint/parser": "^8.23.0",
     "eslint": "^9.19.0",
