@@ -35,7 +35,7 @@
     "axios": "^1.7.9",
     "discord.js-selfbot-v13": "^3.4.2",
     "fs": "^0.0.1-security",
-    "inquirer": "^13.0.1",
+    "inquirer": "^14.1.0",
     "path": "^0.12.7"
   }
 }
